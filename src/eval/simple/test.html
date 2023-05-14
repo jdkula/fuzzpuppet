@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Test</title>
+    <script data-safe type="application/javascript" src="/dist/browser/bundle.js"></script>
+    <script type="application/javascript" src="test.js"></script>
+  </head>
+  <body>
+    Hello
+    <form id="form">
+      <input type="number" id="text" />
+      <button type="submit" id="submit">Submit</button>
+    </form>
+
+    <script>
+      const txt = document.getElementById("text");
+      const form = document.getElementById("form");
+      const btn = document.getElementById("submit");
+
+      const fn = (e) => {
+        e.preventDefault();
+        if (parseInt(txt.value) > 200) {
+          throw new Error("RIP");
+        }
+      };
+
+      form.addEventListener("submit", fn);
+      btn.addEventListener("submit", fn);
+      btn.addEventListener("click", fn);
+    </script>
+  </body>
+</html>
