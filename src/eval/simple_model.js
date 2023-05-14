@@ -1,4 +1,4 @@
-/** @type {import('../model').WebsiteModel} */
+/** @type {import('./model').WebsiteModel} */
 const model = {
   start: "A",
   pages: {

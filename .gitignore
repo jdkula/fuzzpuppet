@@ -28,7 +28,6 @@ Temporary Items
 
 # Logs
 logs
-*.log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
@@ -160,3 +159,6 @@ dist
 crash-*
 
 corpus/
+
+a.out
+*.dSYM
