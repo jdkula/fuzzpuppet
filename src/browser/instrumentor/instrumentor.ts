@@ -87,8 +87,13 @@ export function instrument(codeInp: string): string {
     plugins: [
       () => ({
         visitor: {
+          ClassExpression(path) {
+            if (path.node.id?.name?.includes("_NOINSTRUMENT_")) {
+              path.skip()
+            }
+          },
           Function(path) {
-            if (path.node.body.type === "BlockStatement") {
+            if (path.node.body.type === "BlockStatement" && !path.shouldSkip) {
               const bodyStmt = path.node.body;
               if (bodyStmt) {
                 bodyStmt.body.unshift(makeCounterIncStmt());

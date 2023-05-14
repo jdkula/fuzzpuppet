@@ -4,6 +4,7 @@
     "@babel/standalone": "^7.21.8",
     "@babel/types": "^7.21.5",
     "@jazzer.js/core": "^1.4.0",
+    "glob": "^10.2.3",
     "puppeteer": "^19.9.0"
   },
   "devDependencies": {
@@ -18,7 +19,7 @@
     "webpack-cli": "^5.1.1"
   },
   "scripts": {
-    "watch": "concurrently --kill-others \"npm run watch:browser\" \"npm run watch:node\"",
+    "watch": "concurrently --kill-others \"npm run watch:browser\" \"npm run watch:node\" \"npm run watch:eval\"",
     "watch:node": "tsc -p './src/node/tsconfig.json' --watch",
     "watch:eval": "tsc -p './src/eval/tsconfig.json' --watch",
     "watch:browser": "webpack --watch"

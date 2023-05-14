@@ -2,7 +2,9 @@ import { instrument } from "./instrumentor";
 
 window.__errs = [];
 window.addEventListener("error", (ev) => {
-  window.__errs.push(JSON.parse(JSON.stringify(ev.error, Object.getOwnPropertyNames(ev.error))));
+  window.__errs.push(
+    JSON.parse(JSON.stringify(ev.error, Object.getOwnPropertyNames(ev.error)))
+  );
 });
 
 window.__mp = new Map();
@@ -33,8 +35,7 @@ window.Fuzzer = {
   },
 };
 
-
-const queue: Array<{ src?: string, text?: string }> = [];
+const queue: Array<{ src?: string; text?: string }> = [];
 let running = false;
 
 async function runQueue() {
@@ -45,9 +46,14 @@ async function runQueue() {
     while (queue.length > 0) {
       const { src, text } = queue.splice(0, 1)[0];
       if (text) {
-        eval(instrument(text));
+        const transformed = instrument(text);
+        console.log("Evaluating", { from: text, transformed });
+        eval(transformed);
       } else if (src) {
-        eval(await fetch(src).then(resp => resp.text()))
+        const text = await fetch(src).then((resp) => resp.text());
+        const transformed = instrument(text);
+        console.log("Evaluating", { src, from: text, transformed });
+        eval(transformed);
       }
     }
   } finally {

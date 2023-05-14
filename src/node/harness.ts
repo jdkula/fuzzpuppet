@@ -1,11 +1,56 @@
 import puppeteer from "puppeteer";
 import { FuzzedDataProvider } from "@jazzer.js/core";
-import type * as _ from '../extension';
+import type * as _ from "../extension";
+import * as fs from "node:fs";
+import * as path from "node:path";
+
+const transformBundle = fs.readFileSync(
+  path.join(__dirname, "..", "browser", "bundle.js"),
+  { encoding: "utf-8" }
+);
+
+const bundleB64 = Buffer.from(transformBundle).toString('base64');
+
 
 const ready = (async () => {
-  const browser = await puppeteer.launch({ headless: true });
+  const browser = await puppeteer.launch({headless: 'new'});
   const page = await browser.newPage();
+
+  page.setRequestInterception(true);
+  page.on("request", async (req) => {
+    if (req.url().endsWith(".html")) {
+      let resp = await fetch(req.url());
+      const headers: Record<string, unknown> = {};
+      for (const [k, v] of resp.headers.entries()) {
+        headers[k] = v;
+      }
+      const contentType = resp.headers.get("Content-Type") ?? undefined;
+      if (!resp.ok) {
+        return await req.respond({
+          body: await resp.text(),
+          status: resp.status,
+          contentType,
+          headers,
+        });
+      }
+      let body = await resp.text();
+      body = body.replace(
+        "<head>",
+        `<head><script type="application/javascript" data-safe>eval(atob("${bundleB64}"))</script>`
+      );
+
+      return await req.respond({
+        body,
+        status: resp.status,
+        contentType,
+        headers,
+      });
+    } else {
+      return await req.continue();
+    }
+  });
   return page;
+
 })();
 
 function makeError(errorLike: any) {
@@ -14,9 +59,11 @@ function makeError(errorLike: any) {
   return error;
 }
 
+
 export async function fuzz(input: Buffer) {
   const data = new FuzzedDataProvider(input);
   const page = await ready;
+
   const res = await page.goto(process.env.TARGET ?? "http://localhost:8080/");
 
   if (!res?.ok) {
@@ -29,13 +76,13 @@ export async function fuzz(input: Buffer) {
   ]);
   const interactors = [..._[0], ..._[1]];
 
-  while (data.remainingBytes > 0) {
+  while (data.remainingBytes > 0 && interactors.length > 0) {
     const chosen =
       interactors[data.consumeIntegralInRange(0, interactors.length - 1)];
 
-    const tag = ((
-      await (await chosen.getProperty("tagName")).jsonValue()
-    ) as string).toLowerCase();
+    const tag = (
+      (await (await chosen.getProperty("tagName")).jsonValue()) as string
+    ).toLowerCase();
     const type = await (await chosen.getProperty("type")).jsonValue();
 
     if (tag === "input") {
@@ -54,7 +101,11 @@ export async function fuzz(input: Buffer) {
     }
 
     const [errs, raw_counters, traces] = await page.evaluate(() => {
-      const out = [[...window.__errs], [...window.__mp], [...window.__traces]] as const;
+      const out = [
+        [...window.__errs],
+        [...window.__mp],
+        [...window.__traces],
+      ] as const;
       window.__errs = [];
       window.__mp.clear();
       window.__traces = [];
@@ -64,13 +115,13 @@ export async function fuzz(input: Buffer) {
     for (const { fn, args } of traces) {
       switch (fn) {
         case "traceAndReturn":
-          (Fuzzer.tracer.traceAndReturn as any)(...args)
+          (Fuzzer.tracer.traceAndReturn as any)(...args);
           break;
         case "traceNumberCmp":
-          (Fuzzer.tracer.traceNumberCmp as any)(...args)
+          (Fuzzer.tracer.traceNumberCmp as any)(...args);
           break;
         case "traceStrCmp":
-          (Fuzzer.tracer.traceStrCmp as any)(...args)
+          (Fuzzer.tracer.traceStrCmp as any)(...args);
           break;
       }
     }

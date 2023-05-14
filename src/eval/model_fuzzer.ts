@@ -1,4 +1,4 @@
-//@ts-expect-error 
+//@ts-expect-error
 global.window = global;
 
 import type { WebsiteModel } from "./model";
@@ -7,17 +7,123 @@ import { instrument } from "../browser/instrumentor/instrumentor";
 import { FuzzedDataProvider } from "@jazzer.js/core";
 
 import * as fs from "node:fs";
+import * as path from "node:path";
 
-const model: WebsiteModel = eval(
+const modelInstrumented: WebsiteModel = eval(
   instrument(
     fs.readFileSync(process.env.TARGET as string, { encoding: "utf-8" })
   )
 );
 
+const model: WebsiteModel = eval(
+  fs.readFileSync(process.env.TARGET as string, { encoding: "utf-8" })
+);
+
+function toFileSet(model: WebsiteModel): Record<string, string> {
+  const files: Record<string, string> = {};
+
+  for (const [file, { elements }] of Object.entries(model.pages)) {
+    let counter = 0;
+    let body = "";
+    let script = `
+      const model = {pages: {"${file}": {elements: []}}, start: "${model.start}"};
+    `;
+    for (const element of elements) {
+      switch (element.tag) {
+        case "input": {
+          if (element.type === "number") {
+            const id = counter++;
+            body += `
+              <input type="number" id="${id}" ${
+              element.min !== undefined ? `min="${element.min}"` : ""
+            } ${element.max !== undefined ? `max="${element.max}"` : ""} ${
+              element.value !== undefined ? `value="${element.value}"` : ""
+            }>
+            `;
+            script += `
+              const el${id} = document.getElementById("${id}");
+              model.pages["${file}"].elements.push(new class _NOINSTRUMENT_${id} {get value() {return el${id}.value;}});
+            `;
+            if (element.onChange) {
+              script += `
+                el${id}.addEventListener("change", ${element.onChange.toString()});
+              `;
+            }
+          } else {
+            const id = counter++;
+            body += `
+              <input type="text" id="${id}" ${
+              element.value !== undefined ? `value="${element.value}"` : ""
+            }>
+            `;
+            script += `
+              const el${id} = document.getElementById("${id}");
+              model.pages["${file}"].elements.push(new class _NOINSTRUMENT_${id} {get value() {return el${id}.value;}});
+            `;
+            if (element.onChange) {
+              script += `
+                el${id}.addEventListener("change", ${element.onChange.toString()});
+              `;
+            }
+          }
+          break;
+        }
+        case "button": {
+          const id = counter++;
+          body += `
+            <button id="${id}">button${id}</button>
+          `;
+          script += `
+            const el${id} = document.getElementById("${id}");
+          `;
+          if (element.onClick) {
+            script += `
+              el${id}.addEventListener("click", ${element.onClick.toString()});
+            `;
+          }
+          break;
+        }
+        case "a": {
+          const id = counter++;
+          body += `
+            <a id="${id}" href="${element.destination}.html">link${id}</a>
+          `;
+          break;
+        }
+      }
+
+      const html = `
+      <!DOCTYPE html>
+      <html>
+      <head>
+        <title>${file}</title>
+      </head>
+      <body>
+        ${body}
+        <script type="application/javascript">
+          ${script}
+        </script>
+      </body>
+      </html>
+      `;
+
+      files[file] = html;
+    }
+  }
+
+  return files;
+}
+
+for (const [file, html] of Object.entries(toFileSet(model))) {
+  fs.writeFileSync(path.join(__dirname, file + ".html"), html, {
+    encoding: "utf-8",
+  });
+}
+
 export async function fuzz(input: Buffer) {
   const data = new FuzzedDataProvider(input);
 
-  let page = model.pages[model.start];
+  let page = modelInstrumented.pages[modelInstrumented.start];
   const interactors = [
     ...page.elements.filter((el) => el.tag === "input"),
     ...page.elements.filter((el) => el.tag === "button"),
@@ -36,9 +142,7 @@ export async function fuzz(input: Buffer) {
         chosen.value = str;
         console.log("text input:", str);
       } else if (type === "number") {
-        const num = data.consumeIntegral(
-          3, true
-        );
+        const num = data.consumeIntegral(3, true);
         chosen.value = num;
         console.log("number input:", num);
       }
