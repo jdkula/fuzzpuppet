@@ -82,20 +82,8 @@ export function isNumberCompare(exp: types.BinaryExpression) {
   );
 }
 
-export async function instrumentAndRun(
-  src: null,
-  codeInp: string
-): Promise<void>;
-export async function instrumentAndRun(src: string): Promise<void>;
-export async function instrumentAndRun(
-  src: string | null,
-  codeInp?: string
-): Promise<void> {
-  const text = codeInp ?? (await (await fetch(src!)).text());
-
-  console.log("Transforming", text);
-
-  const { code } = Babel.transform(text, {
+export function instrument(codeInp: string): string {
+  const { code } = Babel.transform(codeInp, {
     plugins: [
       () => ({
         visitor: {
@@ -217,9 +205,5 @@ export async function instrumentAndRun(
     ],
   });
 
-  console.log({ text, code });
-
-  if (code) {
-    eval(code);
-  }
+  return code!;
 }

@@ -20,6 +20,7 @@
   "scripts": {
     "watch": "concurrently --kill-others \"npm run watch:browser\" \"npm run watch:node\"",
     "watch:node": "tsc -p './src/node/tsconfig.json' --watch",
+    "watch:eval": "tsc -p './src/eval/tsconfig.json' --watch",
     "watch:browser": "webpack --watch"
   }
 }

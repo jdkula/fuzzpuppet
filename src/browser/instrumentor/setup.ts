@@ -1,4 +1,4 @@
-import { instrumentAndRun } from "./instrumentor";
+import { instrument } from "./instrumentor";
 
 window.__errs = [];
 window.addEventListener("error", (ev) => {
@@ -34,16 +34,36 @@ window.Fuzzer = {
 };
 
 
+const queue: Array<{ src?: string, text?: string }> = [];
+let running = false;
+
+async function runQueue() {
+  if (queue.length === 0) return;
+
+  running = true;
+  try {
+    while (queue.length > 0) {
+      const { src, text } = queue.splice(0, 1)[0];
+      if (text) {
+        eval(instrument(text));
+      } else if (src) {
+        eval(await fetch(src).then(resp => resp.text()))
+      }
+    }
+  } finally {
+    running = false;
+  }
+}
+
 const obs = new MutationObserver((mut, obs) => {
   const scripts = document.querySelectorAll("script");
   scripts.forEach((scr) => {
     if (scr.dataset.safe === "") return;
     if (scr.dataset.instrumented === "") return;
 
-    if (scr.src) {
-      instrumentAndRun(scr.src);
-    } else if (scr.innerText) {
-      instrumentAndRun(null, scr.innerText);
+    queue.push({ src: scr.src, text: scr.innerText });
+    if (!running) {
+      runQueue();
     }
 
     scr.src = "";
