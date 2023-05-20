@@ -162,3 +162,4 @@ corpus/
 
 a.out
 *.dSYM
+timeout-*

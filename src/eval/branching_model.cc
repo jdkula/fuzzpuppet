@@ -158,12 +158,36 @@ void thru(int value0, int value1, int value2, int value3, int value4) {
   }
 }
 
+int value0, value1, value2, value3, value4;
+
 extern "C" int LLVMFuzzerTestOneInput(const char *Data, size_t Size) {
-  if (Size < 5) {
+  if (Size < 4) {
     return 0;
   }
+  int i = 0;
+  while ((i * 2) < Size) {
+    int action = Data[i * 2] % 6;
+    switch (action) {
+    case 0:
+      value0 = Data[i * 2 + 1];
+      break;
+    case 1:
+      value1 = Data[i * 2 + 1];
+      break;
+    case 2:
+      value2 = Data[i * 2 + 1];
+      break;
 
-  thru(Data[0], Data[1], Data[2], Data[3], Data[4]);
-
+    case 3:
+      value3 = Data[i * 2 + 1];
+      break;
+    case 4:
+      value4 = Data[i * 2 + 1];
+      break;
+    case 5:
+      thru(value0, value1, value2, value3, value4);
+    }
+    i++;
+  }
   return 0;
 }
