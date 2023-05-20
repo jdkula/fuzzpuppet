@@ -1,5 +1,6 @@
 import { instrument } from "./instrumentor";
 
+
 window.__errs = [];
 window.addEventListener("error", (ev) => {
   window.__errs.push(
@@ -7,7 +8,6 @@ window.addEventListener("error", (ev) => {
   );
 });
 
-window.__mp = new Map();
 window.__traces = [];
 window.Fuzzer = {
   tracer: {
@@ -29,8 +29,10 @@ window.Fuzzer = {
   },
   coverageTracker: {
     incrementCounter: (x) => {
-      window.__mp.set(x, (window.__mp.get(x) || 0) + 1);
-      console.log("COUNTER INCREMENTED:", x, "goes to", window.__mp.get(x));
+      window.__traces.push({
+        fn: "incrementCounter",
+        args: [x],
+      });
     },
   },
 };
@@ -46,7 +48,7 @@ async function runQueue() {
     while (queue.length > 0) {
       const { src, text } = queue.splice(0, 1)[0];
       if (text) {
-        const transformed = instrument(text);
+        const transformed = await instrument(text);
         console.log("Evaluating", { from: text, transformed });
         eval(transformed);
       } else if (src) {

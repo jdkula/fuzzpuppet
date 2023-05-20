@@ -16,6 +16,13 @@ export interface WindowExtension {
       incrementCounter: (id: number) => void
     }
   }
+
+  __instrument_prep: {
+    nextId: number,
+    beginnings: Record<string, number>
+  }
+
+  md5(s: string): string;
 }
 
 declare global {

@@ -3,7 +3,9 @@
     "module": "CommonJS",
     "target": "ES2016",
     "strict": true,
-    "outDir": "../../dist/eval"
+    "outDir": "../../dist/eval",
+    "allowJs": true,
+    "allowSyntheticDefaultImports": true
   },
   "include": ["./*.ts"],
 }

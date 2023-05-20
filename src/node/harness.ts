@@ -1,4 +1,4 @@
-import puppeteer from "puppeteer";
+import puppeteer, { ElementHandle, HTTPResponse, Page } from "puppeteer";
 import { FuzzedDataProvider } from "@jazzer.js/core";
 import type * as _ from "../extension";
 import * as fs from "node:fs";
@@ -9,12 +9,18 @@ const transformBundle = fs.readFileSync(
   { encoding: "utf-8" }
 );
 
-const bundleB64 = Buffer.from(transformBundle).toString('base64');
+const bundleB64 = Buffer.from(transformBundle).toString("base64");
 
+const browser = puppeteer.launch({ headless: 'new' });
+const pagesBehind = 1;
+let nextPages: Array<Promise<readonly [Page, HTTPResponse | null]>> | null =
+  null;
 
-const ready = (async () => {
-  const browser = await puppeteer.launch({headless: 'new'});
-  const page = await browser.newPage();
+let nextId = 0;
+let beginnings: Record<string, number> = {};
+
+async function createPage(): Promise<readonly [Page, HTTPResponse | null]> {
+  const page = await (await browser).newPage();
 
   page.setRequestInterception(true);
   page.on("request", async (req) => {
@@ -36,7 +42,14 @@ const ready = (async () => {
       let body = await resp.text();
       body = body.replace(
         "<head>",
-        `<head><script type="application/javascript" data-safe>eval(atob("${bundleB64}"))</script>`
+        `<head>
+          <script data-safe type="application/javascript">
+            window.__instrument_prep = {
+              nextId: ${nextId},
+              beginnings: ${JSON.stringify(beginnings)}
+            };
+          </script>
+          <script type="application/javascript" data-safe>eval(atob("${bundleB64}"))</script>`
       );
 
       return await req.respond({
@@ -49,9 +62,42 @@ const ready = (async () => {
       return await req.continue();
     }
   });
-  return page;
 
-})();
+  const res = await page.goto(process.env.TARGET ?? "http://localhost:8080/", {
+    waitUntil: "domcontentloaded",
+  });
+
+  return [page, res] as const;
+}
+
+async function resetPage(
+  pageProm: Promise<readonly [Page, HTTPResponse | null]>
+): Promise<readonly [Page, HTTPResponse | null]> {
+  const [page] = await pageProm;
+  const res = await page.goto(process.env.TARGET ?? "http://localhost:8080/", {
+    waitUntil: "domcontentloaded",
+  });
+  return [page, res] as const;
+}
+
+let idx = pagesBehind - 1;
+async function getPage(): Promise<readonly [Page, HTTPResponse | null]> {
+  if (!nextPages) {
+    nextPages = [];
+    for (let i = 0; i < pagesBehind; i++) {
+      nextPages.push(createPage());
+    }
+  }
+
+  const lastIdx = idx;
+  idx--;
+  if (idx < 0) idx = pagesBehind - 1;
+
+  let pageToReturn = nextPages[idx];
+  nextPages[lastIdx] = resetPage(nextPages[lastIdx]);
+
+  return await pageToReturn;
+}
 
 function makeError(errorLike: any) {
   const error = new Error(errorLike.message ?? "");
@@ -59,31 +105,41 @@ function makeError(errorLike: any) {
   return error;
 }
 
+export async function getAllInteractors(
+  page: Page
+): Promise<Array<ElementHandle<HTMLElement>>> {
+  const _ = await Promise.all([
+    page.$$("button"),
+    page.$$("input"),
+    page.$$("a"),
+  ]);
+
+  let interactors = [..._[0], ..._[1], ..._[2]];
+  return interactors;
+}
 
 export async function fuzz(input: Buffer) {
   const data = new FuzzedDataProvider(input);
-  const page = await ready;
-
-  const res = await page.goto(process.env.TARGET ?? "http://localhost:8080/");
+  const [page, res] = await getPage();
 
   if (!res?.ok) {
     throw new Error("Nav failed");
   }
 
-  const _ = await Promise.all([
-    await page.$$("input"),
-    await page.$$("button"),
-  ]);
-  const interactors = [..._[0], ..._[1]];
+  while (data.remainingBytes > 0) {
+    const interactors = await getAllInteractors(page);
+    if (interactors.length <= 0) break;
 
-  while (data.remainingBytes > 0 && interactors.length > 0) {
     const chosen =
       interactors[data.consumeIntegralInRange(0, interactors.length - 1)];
 
-    const tag = (
-      (await (await chosen.getProperty("tagName")).jsonValue()) as string
-    ).toLowerCase();
-    const type = await (await chosen.getProperty("type")).jsonValue();
+    const { tag, type, href } = await (chosen.evaluate as any)(
+      (element: HTMLElement) => ({
+        tag: element.tagName?.toLowerCase(),
+        type: (element as HTMLInputElement).type?.toLowerCase(),
+        href: (element as HTMLAnchorElement).getAttribute("href"),
+      })
+    );
 
     if (tag === "input") {
       if (type === "text") {
@@ -96,46 +152,71 @@ export async function fuzz(input: Buffer) {
         console.log("number input:", num);
       }
     } else if (tag === "button") {
-      await chosen.click();
+      await (chosen.evaluate as any)((el: HTMLButtonElement) => el.click());
       console.log("button click");
-    }
-
-    const [errs, raw_counters, traces] = await page.evaluate(() => {
-      const out = [
-        [...window.__errs],
-        [...window.__mp],
-        [...window.__traces],
-      ] as const;
-      window.__errs = [];
-      window.__mp.clear();
-      window.__traces = [];
-      return out;
-    });
-
-    for (const { fn, args } of traces) {
-      switch (fn) {
-        case "traceAndReturn":
-          (Fuzzer.tracer.traceAndReturn as any)(...args);
-          break;
-        case "traceNumberCmp":
-          (Fuzzer.tracer.traceNumberCmp as any)(...args);
-          break;
-        case "traceStrCmp":
-          (Fuzzer.tracer.traceStrCmp as any)(...args);
-          break;
+    } else if (tag === "a") {
+      console.log("a click ->", href, chosen);
+      if (href) {
+        console.log("Waiting...");
+        const currLoc = page.url();
+        const [response] = await Promise.all([
+          page.waitForNavigation({waitUntil: 'domcontentloaded'}),
+          chosen.click(),
+        ]);
+        console.log(response);
+        if (page.url() !== currLoc && response && !response.ok)
+          throw new Error("Got non-OK status when navigating");
       }
-    }
-
-    for (const [k, v] of raw_counters) {
-      for (let i = 0; i < v; i++) {
-        Fuzzer.coverageTracker.incrementCounter(k);
-      }
-    }
-
-    if (errs.length > 0) {
-      throw makeError(errs[0]);
     }
   }
 
+  const [errs, traces, prep] = await page.evaluate(() => {
+    const out = [
+      [...window.__errs],
+      [...window.__traces],
+      window.__instrument_prep,
+    ] as const;
+    return out;
+  });
+
+  for (const { fn, args } of traces) {
+    switch (fn) {
+      case "traceAndReturn":
+        (Fuzzer.tracer.traceAndReturn as any)(...args);
+        break;
+      case "traceNumberCmp":
+        (Fuzzer.tracer.traceNumberCmp as any)(...args);
+        break;
+      case "traceStrCmp":
+        (Fuzzer.tracer.traceStrCmp as any)(...args);
+        break;
+      case "incrementCounter":
+        (Fuzzer.coverageTracker.incrementCounter as any)(...args);
+        break;
+    }
+  }
+
+  console.log([errs, traces, prep]);
+
+  beginnings = prep.beginnings;
+  nextId = prep.nextId;
+
+  if (errs.length > 0) {
+    throw makeError(errs[0]);
+  }
+  // await new Promise(() => void 0)
   console.log("---");
 }
+
+(async () => {
+  const b = await browser;
+  process.on("exit", () => {
+    b.close();
+  });
+  process.on("SIGINT", () => {
+    b.close();
+  });
+  process.on("uncaughtException", () => {
+    b.close();
+  });
+})();

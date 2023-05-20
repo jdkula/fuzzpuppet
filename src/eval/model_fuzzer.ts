@@ -58,7 +58,7 @@ function toFileSet(model: WebsiteModel): Record<string, string> {
             `;
             script += `
               const el${id} = document.getElementById("${id}");
-              model.pages["${file}"].elements.push(new class _NOINSTRUMENT_${id} {get value() {return el${id}.value;}});
+              model.pages["${file}"].elements.push(new class _NOINSTRUMENT_${id} {get value() {return parseInt(el${id}.value);}});
             `;
             if (element.onChange) {
               script += `
@@ -86,7 +86,15 @@ function toFileSet(model: WebsiteModel): Record<string, string> {
         case "a": {
           const id = counter++;
           body += `
-            <a id="${id}" href="${element.destination}.html">link${id}</a>
+            <a id="${id}" ${
+            element.destination
+              ? `href="${
+                  element.destination?.startsWith("#")
+                    ? element.destination
+                    : element.destination + ".html"
+                }"`
+              : ""
+          }>link${id}</a>
           `;
           break;
         }
@@ -124,12 +132,13 @@ export async function fuzz(input: Buffer) {
   const data = new FuzzedDataProvider(input);
 
   let page = modelInstrumented.pages[modelInstrumented.start];
-  const interactors = [
-    ...page.elements.filter((el) => el.tag === "input"),
+  let interactors = [
     ...page.elements.filter((el) => el.tag === "button"),
+    ...page.elements.filter((el) => el.tag === "input"),
+    ...page.elements.filter((el) => el.tag === "a"),
   ];
 
-  while (data.remainingBytes > 0) {
+  while (data.remainingBytes > 0 && interactors.length > 0) {
     const chosen =
       interactors[data.consumeIntegralInRange(0, interactors.length - 1)];
 
@@ -149,6 +158,16 @@ export async function fuzz(input: Buffer) {
     } else if (tag === "button") {
       chosen.onClick?.();
       console.log("button click");
+    } else if (tag === "a") {
+      if (!chosen.destination.startsWith("#")) {
+        page = modelInstrumented.pages[chosen.destination];
+        interactors = [
+          ...page.elements.filter((el) => el.tag === "button"),
+          ...page.elements.filter((el) => el.tag === "input"),
+          ...page.elements.filter((el) => el.tag === "a"),
+        ];
+      }
+      console.log("a tag -> " + chosen.destination);
     }
   }
 

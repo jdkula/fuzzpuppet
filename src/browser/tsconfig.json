@@ -5,7 +5,9 @@
     "moduleResolution": "node",
     "strict": true,
     "sourceMap": false,
-    "outDir": "../../dist/browser"
+    "outDir": "../../dist/browser",
+    "allowSyntheticDefaultImports": true,
+    "allowJs": true
   },
   "include": ["./**/*.ts"]
 }
