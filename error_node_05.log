@@ -1,0 +1,306 @@
+INFO: Running with entropic power schedule (0xFF, 100).
+INFO: Seed: 909767913
+INFO: Loaded 1 modules   (512 inline 8-bit counters): 512 [0x140008000, 0x140008200), 
+INFO: Loaded 1 PC tables (512 PCs): 512 [0x104250000,0x104252000), 
+INFO: -max_len is not provided; libFuzzer will not generate inputs larger than 4096 bytes
+INFO: A corpus is not provided, starting from an empty corpus
+#2	INITED exec/s: 0 rss: 303Mb
+WARNING: no interesting inputs were found so far. Is the code instrumented for coverage?
+This may also happen if the target rejected all inputs we tried so far
+#11	NEW    cov: 11 ft: 11 corp: 2/3b lim: 4 exec/s: 0 rss: 304Mb L: 2/2 MS: 4 CrossOver-CrossOver-InsertByte-ChangeBit-
+#22	REDUCE cov: 11 ft: 11 corp: 2/2b lim: 4 exec/s: 0 rss: 304Mb L: 1/1 MS: 1 EraseBytes-
+#53	REDUCE cov: 11 ft: 22 corp: 3/4b lim: 4 exec/s: 0 rss: 304Mb L: 2/2 MS: 1 CrossOver-
+#65	REDUCE cov: 11 ft: 33 corp: 4/7b lim: 4 exec/s: 0 rss: 304Mb L: 3/3 MS: 2 ShuffleBytes-CrossOver-
+#91	NEW    cov: 14 ft: 36 corp: 5/8b lim: 4 exec/s: 0 rss: 304Mb L: 1/3 MS: 1 EraseBytes-
+#92	NEW    cov: 14 ft: 39 corp: 6/11b lim: 4 exec/s: 0 rss: 304Mb L: 3/3 MS: 1 ShuffleBytes-
+#100	NEW    cov: 14 ft: 50 corp: 7/15b lim: 4 exec/s: 0 rss: 304Mb L: 4/4 MS: 3 ChangeBinInt-EraseBytes-CopyPart-
+#256	NEW    cov: 23 ft: 59 corp: 8/19b lim: 4 exec/s: 0 rss: 304Mb L: 4/4 MS: 1 ShuffleBytes-
+#257	NEW    cov: 23 ft: 68 corp: 9/23b lim: 4 exec/s: 0 rss: 304Mb L: 4/4 MS: 1 ChangeBinInt-
+#258	REDUCE cov: 24 ft: 77 corp: 10/25b lim: 4 exec/s: 0 rss: 304Mb L: 2/4 MS: 1 CopyPart-
+#259	NEW    cov: 24 ft: 78 corp: 11/29b lim: 4 exec/s: 0 rss: 304Mb L: 4/4 MS: 1 ChangeBinInt-
+#260	NEW    cov: 24 ft: 87 corp: 12/33b lim: 4 exec/s: 0 rss: 304Mb L: 4/4 MS: 1 ChangeBit-
+#386	NEW    cov: 31 ft: 94 corp: 13/34b lim: 4 exec/s: 0 rss: 305Mb L: 1/4 MS: 1 EraseBytes-
+#397	NEW    cov: 32 ft: 95 corp: 14/38b lim: 4 exec/s: 0 rss: 305Mb L: 4/4 MS: 1 CopyPart-
+#398	NEW    cov: 32 ft: 96 corp: 15/41b lim: 4 exec/s: 0 rss: 305Mb L: 3/4 MS: 1 CrossOver-
+#400	NEW    cov: 32 ft: 97 corp: 16/45b lim: 4 exec/s: 0 rss: 305Mb L: 4/4 MS: 2 CopyPart-ChangeBit-
+#603	NEW    cov: 33 ft: 98 corp: 17/49b lim: 4 exec/s: 0 rss: 305Mb L: 4/4 MS: 3 ChangeBinInt-ChangeBinInt-InsertByte-
+#605	NEW    cov: 33 ft: 101 corp: 18/51b lim: 4 exec/s: 0 rss: 305Mb L: 2/4 MS: 2 CrossOver-CopyPart-
+#616	NEW    cov: 36 ft: 104 corp: 19/55b lim: 4 exec/s: 0 rss: 305Mb L: 4/4 MS: 1 ChangeByte-
+#622	NEW    cov: 36 ft: 107 corp: 20/59b lim: 4 exec/s: 0 rss: 305Mb L: 4/4 MS: 1 ChangeByte-
+#623	NEW    cov: 36 ft: 110 corp: 21/62b lim: 4 exec/s: 0 rss: 305Mb L: 3/4 MS: 1 InsertByte-
+#656	NEW    cov: 36 ft: 111 corp: 22/66b lim: 4 exec/s: 0 rss: 305Mb L: 4/4 MS: 3 ChangeByte-InsertByte-ChangeByte-
+#666	REDUCE cov: 36 ft: 111 corp: 22/65b lim: 4 exec/s: 0 rss: 305Mb L: 3/4 MS: 5 ChangeByte-ShuffleBytes-CopyPart-EraseBytes-ChangeBit-
+#667	REDUCE cov: 36 ft: 111 corp: 22/63b lim: 4 exec/s: 0 rss: 305Mb L: 2/4 MS: 1 EraseBytes-
+#937	REDUCE cov: 36 ft: 112 corp: 23/68b lim: 6 exec/s: 0 rss: 309Mb L: 5/5 MS: 5 ChangeBinInt-CrossOver-CrossOver-ChangeBinInt-ChangeByte-
+#985	NEW    cov: 36 ft: 113 corp: 24/74b lim: 6 exec/s: 0 rss: 309Mb L: 6/6 MS: 3 CrossOver-CopyPart-CopyPart-
+#997	REDUCE cov: 36 ft: 113 corp: 24/72b lim: 6 exec/s: 0 rss: 309Mb L: 4/5 MS: 2 CrossOver-EraseBytes-
+#1003	REDUCE cov: 36 ft: 116 corp: 25/78b lim: 6 exec/s: 0 rss: 309Mb L: 6/6 MS: 1 CopyPart-
+#1057	REDUCE cov: 36 ft: 116 corp: 25/76b lim: 6 exec/s: 0 rss: 309Mb L: 4/5 MS: 4 CopyPart-CrossOver-ShuffleBytes-EraseBytes-
+#1066	NEW    cov: 43 ft: 123 corp: 26/82b lim: 6 exec/s: 0 rss: 309Mb L: 6/6 MS: 4 CopyPart-CopyPart-ChangeBinInt-ChangeBinInt-
+#1067	NEW    cov: 43 ft: 130 corp: 27/87b lim: 6 exec/s: 0 rss: 309Mb L: 5/6 MS: 1 CrossOver-
+#1069	NEW    cov: 46 ft: 137 corp: 28/89b lim: 6 exec/s: 0 rss: 309Mb L: 2/6 MS: 2 ChangeBit-EraseBytes-
+#1070	NEW    cov: 46 ft: 140 corp: 29/94b lim: 6 exec/s: 0 rss: 309Mb L: 5/6 MS: 1 InsertByte-
+#1093	REDUCE cov: 46 ft: 140 corp: 29/92b lim: 6 exec/s: 0 rss: 309Mb L: 3/6 MS: 3 ChangeBit-CopyPart-EraseBytes-
+#1119	REDUCE cov: 46 ft: 141 corp: 30/96b lim: 6 exec/s: 0 rss: 310Mb L: 4/6 MS: 1 CrossOver-
+#1158	NEW    cov: 51 ft: 146 corp: 31/101b lim: 6 exec/s: 0 rss: 310Mb L: 5/6 MS: 4 ChangeBit-ChangeBit-EraseBytes-InsertRepeatedBytes-
+#1159	NEW    cov: 51 ft: 151 corp: 32/106b lim: 6 exec/s: 0 rss: 310Mb L: 5/6 MS: 1 InsertByte-
+#1160	NEW    cov: 51 ft: 156 corp: 33/112b lim: 6 exec/s: 0 rss: 310Mb L: 6/6 MS: 1 InsertByte-
+#1251	NEW    cov: 54 ft: 159 corp: 34/117b lim: 6 exec/s: 0 rss: 310Mb L: 5/6 MS: 1 ShuffleBytes-
+#1262	NEW    cov: 54 ft: 162 corp: 35/123b lim: 6 exec/s: 0 rss: 310Mb L: 6/6 MS: 1 CrossOver-
+#1293	NEW    cov: 57 ft: 165 corp: 36/129b lim: 6 exec/s: 0 rss: 310Mb L: 6/6 MS: 1 ChangeByte-
+#1295	NEW    cov: 57 ft: 172 corp: 37/131b lim: 6 exec/s: 0 rss: 310Mb L: 2/6 MS: 2 ChangeBit-EraseBytes-
+#1305	NEW    cov: 57 ft: 177 corp: 38/137b lim: 6 exec/s: 0 rss: 310Mb L: 6/6 MS: 5 ChangeBinInt-ChangeBit-CopyPart-CopyPart-CopyPart-
+#1320	NEW    cov: 62 ft: 182 corp: 39/142b lim: 6 exec/s: 0 rss: 310Mb L: 5/6 MS: 5 InsertByte-EraseBytes-ChangeBinInt-CrossOver-InsertRepeatedBytes-
+#1333	NEW    cov: 62 ft: 185 corp: 40/145b lim: 6 exec/s: 0 rss: 310Mb L: 3/6 MS: 3 ChangeBit-ShuffleBytes-CrossOver-
+#1369	NEW    cov: 62 ft: 192 corp: 41/149b lim: 6 exec/s: 0 rss: 310Mb L: 4/6 MS: 1 CrossOver-
+#1375	NEW    cov: 62 ft: 199 corp: 42/154b lim: 6 exec/s: 0 rss: 310Mb L: 5/6 MS: 1 InsertByte-
+#1424	NEW    cov: 62 ft: 202 corp: 43/159b lim: 6 exec/s: 0 rss: 310Mb L: 5/6 MS: 4 CopyPart-EraseBytes-InsertByte-ChangeByte-
+#1430	NEW    cov: 62 ft: 209 corp: 44/162b lim: 6 exec/s: 0 rss: 310Mb L: 3/6 MS: 1 EraseBytes-
+#1436	REDUCE cov: 62 ft: 212 corp: 45/165b lim: 6 exec/s: 0 rss: 310Mb L: 3/6 MS: 1 ChangeBit-
+#1438	NEW    cov: 62 ft: 215 corp: 46/169b lim: 6 exec/s: 0 rss: 310Mb L: 4/6 MS: 2 ChangeByte-InsertByte-
+#1546	NEW    cov: 62 ft: 218 corp: 47/173b lim: 6 exec/s: 0 rss: 310Mb L: 4/6 MS: 3 ChangeBit-ChangeBit-ShuffleBytes-
+#1547	NEW    cov: 62 ft: 221 corp: 48/177b lim: 6 exec/s: 0 rss: 310Mb L: 4/6 MS: 1 ChangeBinInt-
+#1840	REDUCE cov: 62 ft: 232 corp: 49/185b lim: 8 exec/s: 0 rss: 312Mb L: 8/8 MS: 3 ShuffleBytes-CopyPart-CopyPart-
+#1913	NEW    cov: 63 ft: 233 corp: 50/189b lim: 8 exec/s: 0 rss: 312Mb L: 4/8 MS: 3 ShuffleBytes-ChangeBinInt-ShuffleBytes-
+#1922	REDUCE cov: 63 ft: 234 corp: 51/192b lim: 8 exec/s: 0 rss: 312Mb L: 3/8 MS: 4 ShuffleBytes-InsertByte-CrossOver-CopyPart-
+#1923	NEW    cov: 63 ft: 235 corp: 52/194b lim: 8 exec/s: 0 rss: 312Mb L: 2/8 MS: 1 EraseBytes-
+#1964	NEW    cov: 64 ft: 236 corp: 53/196b lim: 8 exec/s: 0 rss: 312Mb L: 2/8 MS: 1 CrossOver-
+#2036	NEW    cov: 64 ft: 237 corp: 54/203b lim: 8 exec/s: 0 rss: 312Mb L: 7/8 MS: 2 InsertRepeatedBytes-CrossOver-
+#2061	NEW    cov: 64 ft: 242 corp: 55/211b lim: 8 exec/s: 0 rss: 312Mb L: 8/8 MS: 5 CrossOver-InsertByte-InsertRepeatedBytes-EraseBytes-CopyPart-
+#2062	NEW    cov: 65 ft: 247 corp: 56/218b lim: 8 exec/s: 0 rss: 312Mb L: 7/8 MS: 1 CrossOver-
+#2063	REDUCE cov: 65 ft: 248 corp: 57/222b lim: 8 exec/s: 0 rss: 312Mb L: 4/8 MS: 1 InsertByte-
+#2064	NEW    cov: 65 ft: 249 corp: 58/226b lim: 8 exec/s: 0 rss: 312Mb L: 4/8 MS: 1 EraseBytes-
+#2236	NEW    cov: 66 ft: 250 corp: 59/233b lim: 8 exec/s: 0 rss: 312Mb L: 7/8 MS: 2 InsertByte-ShuffleBytes-
+#2277	NEW    cov: 66 ft: 251 corp: 60/238b lim: 8 exec/s: 0 rss: 313Mb L: 5/8 MS: 1 InsertByte-
+#2556	REDUCE cov: 66 ft: 252 corp: 61/246b lim: 8 exec/s: 0 rss: 314Mb L: 8/8 MS: 4 ShuffleBytes-ChangeByte-CrossOver-CopyPart-
+#2562	REDUCE cov: 66 ft: 257 corp: 62/254b lim: 8 exec/s: 0 rss: 314Mb L: 8/8 MS: 1 CopyPart-
+#2563	NEW    cov: 66 ft: 258 corp: 63/258b lim: 8 exec/s: 0 rss: 314Mb L: 4/8 MS: 1 CopyPart-
+#2598	NEW    cov: 66 ft: 259 corp: 64/266b lim: 8 exec/s: 0 rss: 314Mb L: 8/8 MS: 5 ChangeByte-EraseBytes-InsertRepeatedBytes-CopyPart-CopyPart-
+#2741	NEW    cov: 67 ft: 260 corp: 65/272b lim: 8 exec/s: 0 rss: 314Mb L: 6/8 MS: 3 EraseBytes-InsertRepeatedBytes-ChangeByte-
+#2742	NEW    cov: 67 ft: 261 corp: 66/276b lim: 8 exec/s: 0 rss: 314Mb L: 4/8 MS: 1 CopyPart-
+#2796	NEW    cov: 72 ft: 266 corp: 67/283b lim: 8 exec/s: 0 rss: 314Mb L: 7/8 MS: 4 EraseBytes-CrossOver-ChangeByte-InsertByte-
+#2802	NEW    cov: 77 ft: 271 corp: 68/285b lim: 8 exec/s: 0 rss: 314Mb L: 2/8 MS: 1 EraseBytes-
+#2803	NEW    cov: 77 ft: 276 corp: 69/288b lim: 8 exec/s: 0 rss: 314Mb L: 3/8 MS: 1 CopyPart-
+#2812	NEW    cov: 77 ft: 281 corp: 70/295b lim: 8 exec/s: 0 rss: 314Mb L: 7/8 MS: 4 ChangeBinInt-InsertByte-EraseBytes-CrossOver-
+#2912	NEW    cov: 77 ft: 284 corp: 71/303b lim: 8 exec/s: 0 rss: 315Mb L: 8/8 MS: 5 InsertRepeatedBytes-ChangeBit-InsertByte-ChangeBinInt-CrossOver-
+#2978	NEW    cov: 77 ft: 285 corp: 72/308b lim: 8 exec/s: 0 rss: 315Mb L: 5/8 MS: 1 CrossOver-
+#2989	NEW    cov: 77 ft: 286 corp: 73/312b lim: 8 exec/s: 0 rss: 315Mb L: 4/8 MS: 1 CrossOver-
+#3086	NEW    cov: 77 ft: 289 corp: 74/319b lim: 8 exec/s: 0 rss: 315Mb L: 7/8 MS: 2 CrossOver-InsertRepeatedBytes-
+#3112	NEW    cov: 78 ft: 290 corp: 75/327b lim: 8 exec/s: 0 rss: 315Mb L: 8/8 MS: 1 CopyPart-
+#3187	NEW    cov: 78 ft: 291 corp: 76/334b lim: 8 exec/s: 0 rss: 315Mb L: 7/8 MS: 5 ChangeBit-EraseBytes-InsertRepeatedBytes-ChangeByte-ShuffleBytes-
+#3193	NEW    cov: 79 ft: 292 corp: 77/337b lim: 8 exec/s: 0 rss: 315Mb L: 3/8 MS: 1 EraseBytes-
+#3194	NEW    cov: 79 ft: 293 corp: 78/344b lim: 8 exec/s: 0 rss: 315Mb L: 7/8 MS: 1 InsertRepeatedBytes-
+#3195	REDUCE cov: 79 ft: 294 corp: 79/347b lim: 8 exec/s: 0 rss: 315Mb L: 3/8 MS: 1 ShuffleBytes-
+#3196	NEW    cov: 79 ft: 295 corp: 80/354b lim: 8 exec/s: 0 rss: 315Mb L: 7/8 MS: 1 ChangeBit-
+#3322	NEW    cov: 82 ft: 300 corp: 81/356b lim: 8 exec/s: 0 rss: 316Mb L: 2/8 MS: 1 ChangeByte-
+#3348	NEW    cov: 82 ft: 303 corp: 82/357b lim: 8 exec/s: 0 rss: 316Mb L: 1/8 MS: 1 CrossOver-
+#3350	NEW    cov: 82 ft: 308 corp: 83/362b lim: 8 exec/s: 0 rss: 316Mb L: 5/8 MS: 2 ChangeBinInt-EraseBytes-
+#3351	NEW    cov: 82 ft: 313 corp: 84/370b lim: 8 exec/s: 0 rss: 316Mb L: 8/8 MS: 1 ShuffleBytes-
+#3392	NEW    cov: 82 ft: 314 corp: 85/377b lim: 8 exec/s: 0 rss: 316Mb L: 7/8 MS: 1 CrossOver-
+#3473	NEW    cov: 82 ft: 317 corp: 86/385b lim: 8 exec/s: 0 rss: 316Mb L: 8/8 MS: 1 CopyPart-
+#3570	NEW    cov: 82 ft: 318 corp: 87/390b lim: 8 exec/s: 0 rss: 317Mb L: 5/8 MS: 2 EraseBytes-ChangeByte-
+#3611	NEW    cov: 85 ft: 321 corp: 88/395b lim: 8 exec/s: 0 rss: 317Mb L: 5/8 MS: 1 CopyPart-
+#3612	NEW    cov: 85 ft: 324 corp: 89/401b lim: 8 exec/s: 0 rss: 317Mb L: 6/8 MS: 1 ChangeByte-
+#3668	NEW    cov: 85 ft: 331 corp: 90/409b lim: 8 exec/s: 0 rss: 317Mb L: 8/8 MS: 1 CopyPart-
+#3991	REDUCE cov: 85 ft: 334 corp: 91/419b lim: 11 exec/s: 0 rss: 318Mb L: 10/10 MS: 3 CrossOver-InsertRepeatedBytes-ChangeByte-
+#4148	NEW    cov: 85 ft: 335 corp: 92/429b lim: 11 exec/s: 0 rss: 318Mb L: 10/10 MS: 2 EraseBytes-InsertRepeatedBytes-
+#4169	NEW    cov: 85 ft: 336 corp: 93/438b lim: 11 exec/s: 0 rss: 318Mb L: 9/10 MS: 1 InsertRepeatedBytes-
+#4432	NEW    cov: 86 ft: 337 corp: 94/449b lim: 11 exec/s: 0 rss: 319Mb L: 11/11 MS: 3 CrossOver-ChangeByte-CMP- DE: "\016W\327\377\377\377\377\377"-
+#4434	NEW    cov: 86 ft: 338 corp: 95/454b lim: 11 exec/s: 0 rss: 319Mb L: 5/11 MS: 2 ShuffleBytes-InsertByte-
+#4515	NEW    cov: 86 ft: 343 corp: 96/463b lim: 11 exec/s: 0 rss: 319Mb L: 9/11 MS: 1 InsertByte-
+#4524	NEW    cov: 87 ft: 344 corp: 97/468b lim: 11 exec/s: 0 rss: 319Mb L: 5/11 MS: 4 ChangeBinInt-PersAutoDict-EraseBytes-CrossOver- DE: "\016W\327\377\377\377\377\377"-
+#4564	NEW    cov: 87 ft: 349 corp: 98/479b lim: 11 exec/s: 0 rss: 319Mb L: 11/11 MS: 5 CopyPart-ChangeBinInt-CrossOver-CrossOver-ChangeBit-
+#4565	NEW    cov: 87 ft: 354 corp: 99/483b lim: 11 exec/s: 0 rss: 319Mb L: 4/11 MS: 1 EraseBytes-
+#4581	NEW    cov: 87 ft: 357 corp: 100/486b lim: 11 exec/s: 0 rss: 319Mb L: 3/11 MS: 1 InsertByte-
+#4597	NEW    cov: 87 ft: 366 corp: 101/495b lim: 11 exec/s: 0 rss: 319Mb L: 9/11 MS: 1 CrossOver-
+#4703	NEW    cov: 90 ft: 369 corp: 102/501b lim: 11 exec/s: 0 rss: 320Mb L: 6/11 MS: 1 ShuffleBytes-
+#4704	NEW    cov: 91 ft: 372 corp: 103/507b lim: 11 exec/s: 0 rss: 320Mb L: 6/11 MS: 1 CrossOver-
+#4705	NEW    cov: 92 ft: 373 corp: 104/514b lim: 11 exec/s: 0 rss: 320Mb L: 7/11 MS: 1 CrossOver-
+#4706	NEW    cov: 92 ft: 374 corp: 105/517b lim: 11 exec/s: 0 rss: 320Mb L: 3/11 MS: 1 InsertByte-
+#4707	NEW    cov: 92 ft: 375 corp: 106/524b lim: 11 exec/s: 0 rss: 320Mb L: 7/11 MS: 1 ChangeBinInt-
+#4714	NEW    cov: 92 ft: 378 corp: 107/528b lim: 11 exec/s: 0 rss: 320Mb L: 4/11 MS: 2 EraseBytes-CopyPart-
+#4719	NEW    cov: 92 ft: 379 corp: 108/539b lim: 11 exec/s: 0 rss: 320Mb L: 11/11 MS: 5 InsertRepeatedBytes-PersAutoDict-ChangeBinInt-PersAutoDict-CopyPart- DE: "\016W\327\377\377\377\377\377"-"\016W\327\377\377\377\377\377"-
+#4795	NEW    cov: 92 ft: 380 corp: 109/547b lim: 11 exec/s: 0 rss: 320Mb L: 8/11 MS: 1 CopyPart-
+#4866	NEW    cov: 92 ft: 381 corp: 110/557b lim: 11 exec/s: 0 rss: 321Mb L: 10/11 MS: 1 CrossOver-
+#4914	NEW    cov: 92 ft: 382 corp: 111/563b lim: 11 exec/s: 0 rss: 321Mb L: 6/11 MS: 3 CrossOver-ChangeBit-CopyPart-
+#5133	NEW    cov: 92 ft: 383 corp: 112/574b lim: 11 exec/s: 0 rss: 321Mb L: 11/11 MS: 4 CrossOver-ChangeBinInt-ChangeByte-ChangeBit-
+#5139	NEW    cov: 93 ft: 384 corp: 113/577b lim: 11 exec/s: 0 rss: 321Mb L: 3/11 MS: 1 ShuffleBytes-
+#5143	NEW    cov: 93 ft: 385 corp: 114/579b lim: 11 exec/s: 0 rss: 321Mb L: 2/11 MS: 4 InsertRepeatedBytes-ChangeBit-ShuffleBytes-CrossOver-
+#5144	REDUCE cov: 94 ft: 386 corp: 115/588b lim: 11 exec/s: 0 rss: 321Mb L: 9/11 MS: 1 PersAutoDict- DE: "\016W\327\377\377\377\377\377"-
+#5145	NEW    cov: 94 ft: 389 corp: 116/590b lim: 11 exec/s: 0 rss: 321Mb L: 2/11 MS: 1 CopyPart-
+#5151	NEW    cov: 94 ft: 390 corp: 117/600b lim: 11 exec/s: 0 rss: 321Mb L: 10/11 MS: 1 ChangeByte-
+#5155	NEW    cov: 94 ft: 391 corp: 118/611b lim: 11 exec/s: 0 rss: 321Mb L: 11/11 MS: 4 ChangeBinInt-InsertRepeatedBytes-ChangeByte-InsertByte-
+#5347	NEW    cov: 94 ft: 392 corp: 119/622b lim: 11 exec/s: 0 rss: 322Mb L: 11/11 MS: 2 ShuffleBytes-ChangeBit-
+#5363	NEW    cov: 94 ft: 393 corp: 120/630b lim: 11 exec/s: 0 rss: 322Mb L: 8/11 MS: 1 CrossOver-
+#5364	NEW    cov: 94 ft: 396 corp: 121/639b lim: 11 exec/s: 0 rss: 322Mb L: 9/11 MS: 1 CopyPart-
+#5373	NEW    cov: 94 ft: 397 corp: 122/646b lim: 11 exec/s: 0 rss: 322Mb L: 7/11 MS: 4 CrossOver-CopyPart-CrossOver-EraseBytes-
+#5436	NEW    cov: 94 ft: 404 corp: 123/655b lim: 11 exec/s: 0 rss: 323Mb L: 9/11 MS: 3 ChangeBinInt-ShuffleBytes-InsertRepeatedBytes-
+#5677	NEW    cov: 94 ft: 407 corp: 124/664b lim: 11 exec/s: 0 rss: 323Mb L: 9/11 MS: 1 ShuffleBytes-
+#5958	NEW    cov: 94 ft: 408 corp: 125/673b lim: 11 exec/s: 0 rss: 323Mb L: 9/11 MS: 1 ChangeBit-
+#6131	NEW    cov: 94 ft: 411 corp: 126/682b lim: 11 exec/s: 0 rss: 324Mb L: 9/11 MS: 3 CopyPart-ChangeBinInt-CrossOver-
+#6168	NEW    cov: 94 ft: 414 corp: 127/691b lim: 11 exec/s: 0 rss: 325Mb L: 9/11 MS: 2 ChangeBinInt-ChangeByte-
+#6169	NEW    cov: 94 ft: 417 corp: 128/694b lim: 11 exec/s: 0 rss: 325Mb L: 3/11 MS: 1 CrossOver-
+#6204	NEW    cov: 94 ft: 418 corp: 129/702b lim: 11 exec/s: 0 rss: 325Mb L: 8/11 MS: 5 ChangeByte-ChangeByte-CrossOver-ChangeByte-InsertByte-
+#6340	NEW    cov: 94 ft: 419 corp: 130/712b lim: 11 exec/s: 0 rss: 325Mb L: 10/11 MS: 1 CopyPart-
+#6373	NEW    cov: 94 ft: 422 corp: 131/723b lim: 11 exec/s: 0 rss: 325Mb L: 11/11 MS: 3 CopyPart-CopyPart-CopyPart-
+#6374	NEW    cov: 94 ft: 425 corp: 132/732b lim: 11 exec/s: 0 rss: 325Mb L: 9/11 MS: 1 ChangeByte-
+#6379	NEW    cov: 94 ft: 426 corp: 133/742b lim: 11 exec/s: 0 rss: 325Mb L: 10/11 MS: 5 ChangeByte-CrossOver-CrossOver-PersAutoDict-PersAutoDict- DE: "\016W\327\377\377\377\377\377"-"\016W\327\377\377\377\377\377"-
+#6775	NEW    cov: 94 ft: 427 corp: 134/751b lim: 14 exec/s: 0 rss: 327Mb L: 9/11 MS: 1 CrossOver-
+#6776	NEW    cov: 94 ft: 432 corp: 135/760b lim: 14 exec/s: 0 rss: 327Mb L: 9/11 MS: 1 ShuffleBytes-
+#6857	NEW    cov: 94 ft: 433 corp: 136/767b lim: 14 exec/s: 0 rss: 327Mb L: 7/11 MS: 1 CrossOver-
+#6874	NEW    cov: 94 ft: 434 corp: 137/778b lim: 14 exec/s: 0 rss: 327Mb L: 11/11 MS: 2 PersAutoDict-ChangeBit- DE: "\016W\327\377\377\377\377\377"-
+#7300	NEW    cov: 94 ft: 435 corp: 138/788b lim: 17 exec/s: 0 rss: 328Mb L: 10/11 MS: 1 CrossOver-
+#7351	NEW    cov: 94 ft: 436 corp: 139/804b lim: 17 exec/s: 0 rss: 330Mb L: 16/16 MS: 1 InsertRepeatedBytes-
+#7386	NEW    cov: 94 ft: 437 corp: 140/821b lim: 17 exec/s: 0 rss: 331Mb L: 17/17 MS: 5 CMP-CopyPart-ChangeBinInt-ChangeBinInt-CopyPart- DE: "\346\346f\000\000\000\000\000"-
+#7502	NEW    cov: 94 ft: 448 corp: 141/838b lim: 17 exec/s: 0 rss: 331Mb L: 17/17 MS: 1 InsertRepeatedBytes-
+#7518	NEW    cov: 94 ft: 451 corp: 142/847b lim: 17 exec/s: 0 rss: 331Mb L: 9/17 MS: 1 ChangeByte-
+#7594	NEW    cov: 94 ft: 454 corp: 143/855b lim: 17 exec/s: 0 rss: 331Mb L: 8/17 MS: 1 CopyPart-
+#7836	NEW    cov: 94 ft: 455 corp: 144/869b lim: 17 exec/s: 0 rss: 333Mb L: 14/17 MS: 2 CopyPart-InsertRepeatedBytes-
+#7878	NEW    cov: 94 ft: 460 corp: 145/881b lim: 17 exec/s: 0 rss: 333Mb L: 12/17 MS: 2 CopyPart-CrossOver-
+#7934	NEW    cov: 94 ft: 461 corp: 146/898b lim: 17 exec/s: 0 rss: 333Mb L: 17/17 MS: 1 PersAutoDict- DE: "\016W\327\377\377\377\377\377"-
+#8128	NEW    cov: 94 ft: 462 corp: 147/915b lim: 17 exec/s: 0 rss: 333Mb L: 17/17 MS: 4 PersAutoDict-CopyPart-ChangeBinInt-ChangeByte- DE: "\346\346f\000\000\000\000\000"-
+#8130	REDUCE cov: 94 ft: 463 corp: 148/924b lim: 17 exec/s: 0 rss: 333Mb L: 9/17 MS: 2 InsertByte-CopyPart-
+#8160	NEW    cov: 94 ft: 464 corp: 149/932b lim: 17 exec/s: 0 rss: 333Mb L: 8/17 MS: 5 EraseBytes-ChangeBinInt-ChangeBit-ChangeBit-CrossOver-
+#8292	NEW    cov: 94 ft: 465 corp: 150/949b lim: 17 exec/s: 0 rss: 334Mb L: 17/17 MS: 2 CrossOver-CopyPart-
+#8294	NEW    cov: 94 ft: 467 corp: 151/961b lim: 17 exec/s: 0 rss: 334Mb L: 12/17 MS: 2 CrossOver-CMP- DE: "\376\377\377\377\377\200\013\202"-
+#8320	NEW    cov: 94 ft: 470 corp: 152/978b lim: 17 exec/s: 0 rss: 334Mb L: 17/17 MS: 1 CopyPart-
+#8346	NEW    cov: 94 ft: 471 corp: 153/990b lim: 17 exec/s: 0 rss: 334Mb L: 12/17 MS: 1 CopyPart-
+#8632	NEW    cov: 94 ft: 472 corp: 154/998b lim: 17 exec/s: 0 rss: 335Mb L: 8/17 MS: 1 EraseBytes-
+#8859	NEW    cov: 94 ft: 473 corp: 155/1015b lim: 17 exec/s: 0 rss: 336Mb L: 17/17 MS: 2 PersAutoDict-ChangeBinInt- DE: "\016W\327\377\377\377\377\377"-
+#8899	NEW    cov: 94 ft: 474 corp: 156/1027b lim: 17 exec/s: 0 rss: 336Mb L: 12/17 MS: 5 EraseBytes-InsertByte-ChangeByte-EraseBytes-InsertRepeatedBytes-
+#8926	REDUCE cov: 94 ft: 474 corp: 156/1026b lim: 17 exec/s: 0 rss: 336Mb L: 6/17 MS: 2 ChangeBit-EraseBytes-
+#9228	NEW    cov: 94 ft: 477 corp: 157/1043b lim: 17 exec/s: 0 rss: 337Mb L: 17/17 MS: 2 ChangeBit-InsertRepeatedBytes-
+#9674	NEW    cov: 94 ft: 483 corp: 158/1064b lim: 21 exec/s: 0 rss: 338Mb L: 21/21 MS: 1 InsertRepeatedBytes-
+#9903	NEW    cov: 94 ft: 484 corp: 159/1085b lim: 21 exec/s: 0 rss: 339Mb L: 21/21 MS: 4 CopyPart-CrossOver-CrossOver-CrossOver-
+#9909	NEW    cov: 94 ft: 485 corp: 160/1106b lim: 21 exec/s: 0 rss: 339Mb L: 21/21 MS: 1 CopyPart-
+#10055	NEW    cov: 94 ft: 490 corp: 161/1123b lim: 21 exec/s: 0 rss: 339Mb L: 17/21 MS: 1 CopyPart-
+#10066	NEW    cov: 94 ft: 493 corp: 162/1131b lim: 21 exec/s: 0 rss: 339Mb L: 8/21 MS: 1 ShuffleBytes-
+#10362	REDUCE cov: 94 ft: 493 corp: 162/1127b lim: 21 exec/s: 0 rss: 340Mb L: 7/21 MS: 1 EraseBytes-
+#10728	REDUCE cov: 94 ft: 493 corp: 162/1126b lim: 21 exec/s: 0 rss: 342Mb L: 8/21 MS: 1 EraseBytes-
+#10833	NEW    cov: 94 ft: 494 corp: 163/1138b lim: 21 exec/s: 0 rss: 342Mb L: 12/21 MS: 5 EraseBytes-CopyPart-ShuffleBytes-ShuffleBytes-CopyPart-
+#10839	NEW    cov: 94 ft: 495 corp: 164/1155b lim: 21 exec/s: 0 rss: 342Mb L: 17/21 MS: 1 ChangeByte-
+#10855	NEW    cov: 94 ft: 498 corp: 165/1172b lim: 21 exec/s: 0 rss: 342Mb L: 17/21 MS: 1 ShuffleBytes-
+#11184	NEW    cov: 94 ft: 499 corp: 166/1192b lim: 21 exec/s: 0 rss: 343Mb L: 20/21 MS: 4 ShuffleBytes-ChangeBinInt-InsertRepeatedBytes-CopyPart-
+#11371	NEW    cov: 94 ft: 506 corp: 167/1212b lim: 21 exec/s: 0 rss: 344Mb L: 20/21 MS: 2 InsertByte-CopyPart-
+#11897	NEW    cov: 94 ft: 511 corp: 168/1237b lim: 25 exec/s: 0 rss: 345Mb L: 25/25 MS: 1 PersAutoDict- DE: "\346\346f\000\000\000\000\000"-
+#12100	NEW    cov: 94 ft: 512 corp: 169/1260b lim: 25 exec/s: 0 rss: 346Mb L: 23/25 MS: 3 InsertRepeatedBytes-CMP-ShuffleBytes- DE: "x\013\341\377\377\377\377\377"-
+#12149	NEW    cov: 94 ft: 515 corp: 170/1283b lim: 25 exec/s: 0 rss: 346Mb L: 23/25 MS: 4 InsertByte-ShuffleBytes-ChangeBit-CrossOver-
+#12266	NEW    cov: 94 ft: 518 corp: 171/1304b lim: 25 exec/s: 0 rss: 346Mb L: 21/25 MS: 2 ChangeByte-InsertRepeatedBytes-
+#12467	NEW    cov: 94 ft: 525 corp: 172/1328b lim: 25 exec/s: 0 rss: 347Mb L: 24/25 MS: 1 InsertRepeatedBytes-
+#12528	NEW    cov: 94 ft: 526 corp: 173/1345b lim: 25 exec/s: 0 rss: 347Mb L: 17/25 MS: 1 CopyPart-
+#12741	NEW    cov: 94 ft: 531 corp: 174/1363b lim: 25 exec/s: 0 rss: 348Mb L: 18/25 MS: 3 EraseBytes-ShuffleBytes-InsertRepeatedBytes-
+#12867	NEW    cov: 94 ft: 536 corp: 175/1388b lim: 25 exec/s: 0 rss: 348Mb L: 25/25 MS: 1 CMP- DE: "\001\000\000\000\000m\364\355"-
+#12968	NEW    cov: 94 ft: 539 corp: 176/1411b lim: 25 exec/s: 0 rss: 349Mb L: 23/25 MS: 1 ChangeBit-
+#13406	NEW    cov: 94 ft: 542 corp: 177/1438b lim: 29 exec/s: 0 rss: 350Mb L: 27/27 MS: 3 InsertByte-ChangeByte-InsertRepeatedBytes-
+#13682	NEW    cov: 94 ft: 543 corp: 178/1467b lim: 29 exec/s: 0 rss: 351Mb L: 29/29 MS: 1 PersAutoDict- DE: "\016W\327\377\377\377\377\377"-
+#14133	NEW    cov: 94 ft: 544 corp: 179/1492b lim: 33 exec/s: 0 rss: 353Mb L: 25/29 MS: 1 PersAutoDict- DE: "\016W\327\377\377\377\377\377"-
+#14870	NEW    cov: 94 ft: 547 corp: 180/1525b lim: 38 exec/s: 0 rss: 355Mb L: 33/33 MS: 2 CopyPart-CopyPart-
+#14975	NEW    cov: 94 ft: 550 corp: 181/1545b lim: 38 exec/s: 0 rss: 356Mb L: 20/33 MS: 5 ShuffleBytes-CrossOver-ChangeBit-ChangeBit-CopyPart-
+#15191	REDUCE cov: 94 ft: 550 corp: 181/1544b lim: 38 exec/s: 0 rss: 356Mb L: 20/33 MS: 1 EraseBytes-
+#15274	NEW    cov: 94 ft: 551 corp: 182/1565b lim: 38 exec/s: 0 rss: 356Mb L: 21/33 MS: 3 EraseBytes-InsertByte-CopyPart-
+#15708	NEW    cov: 94 ft: 562 corp: 183/1600b lim: 38 exec/s: 0 rss: 358Mb L: 35/35 MS: 4 CrossOver-CrossOver-CrossOver-CrossOver-
+#15726	NEW    cov: 94 ft: 563 corp: 184/1628b lim: 38 exec/s: 0 rss: 358Mb L: 28/35 MS: 3 CrossOver-PersAutoDict-CopyPart- DE: "x\013\341\377\377\377\377\377"-
+#15887	NEW    cov: 94 ft: 570 corp: 185/1663b lim: 38 exec/s: 0 rss: 358Mb L: 35/35 MS: 1 ChangeByte-
+#15984	NEW    cov: 94 ft: 571 corp: 186/1694b lim: 38 exec/s: 0 rss: 359Mb L: 31/35 MS: 2 CrossOver-InsertByte-
+#16002	NEW    cov: 94 ft: 572 corp: 187/1726b lim: 38 exec/s: 0 rss: 359Mb L: 32/35 MS: 3 ShuffleBytes-CrossOver-CrossOver-
+#16298	NEW    cov: 94 ft: 575 corp: 188/1746b lim: 38 exec/s: 0 rss: 360Mb L: 20/35 MS: 1 CopyPart-
+#16524	NEW    cov: 94 ft: 580 corp: 189/1781b lim: 38 exec/s: 0 rss: 360Mb L: 35/35 MS: 1 ShuffleBytes-
+#16846	NEW    cov: 94 ft: 581 corp: 190/1813b lim: 38 exec/s: 0 rss: 361Mb L: 32/35 MS: 2 ChangeBit-ChangeBit-
+#16952	NEW    cov: 94 ft: 582 corp: 191/1823b lim: 38 exec/s: 0 rss: 362Mb L: 10/35 MS: 1 InsertByte-
+#17128	NEW    cov: 94 ft: 591 corp: 192/1861b lim: 38 exec/s: 0 rss: 362Mb L: 38/38 MS: 1 InsertRepeatedBytes-
+#17644	NEW    cov: 94 ft: 594 corp: 193/1896b lim: 43 exec/s: 0 rss: 364Mb L: 35/38 MS: 1 ShuffleBytes-
+#17671	NEW    cov: 94 ft: 599 corp: 194/1936b lim: 43 exec/s: 0 rss: 364Mb L: 40/40 MS: 2 ShuffleBytes-InsertRepeatedBytes-
+#17707	NEW    cov: 94 ft: 600 corp: 195/1971b lim: 43 exec/s: 0 rss: 364Mb L: 35/40 MS: 1 ShuffleBytes-
+#17898	NEW    cov: 94 ft: 607 corp: 196/2012b lim: 43 exec/s: 0 rss: 365Mb L: 41/41 MS: 1 CrossOver-
+#18069	NEW    cov: 94 ft: 610 corp: 197/2047b lim: 43 exec/s: 0 rss: 365Mb L: 35/41 MS: 1 CopyPart-
+#18085	NEW    cov: 94 ft: 611 corp: 198/2087b lim: 43 exec/s: 0 rss: 365Mb L: 40/41 MS: 1 CrossOver-
+#18295	NEW    cov: 94 ft: 614 corp: 199/2130b lim: 43 exec/s: 0 rss: 366Mb L: 43/43 MS: 5 ChangeBinInt-ChangeBit-ShuffleBytes-InsertByte-InsertRepeatedBytes-
+#18621	NEW    cov: 94 ft: 619 corp: 200/2173b lim: 43 exec/s: 0 rss: 367Mb L: 43/43 MS: 1 ChangeBinInt-
+#18859	NEW    cov: 94 ft: 620 corp: 201/2197b lim: 43 exec/s: 0 rss: 368Mb L: 24/43 MS: 3 CrossOver-ChangeByte-EraseBytes-
+#19411	REDUCE cov: 94 ft: 621 corp: 202/2217b lim: 48 exec/s: 19411 rss: 370Mb L: 20/43 MS: 2 ChangeBinInt-CopyPart-
+#19457	NEW    cov: 94 ft: 622 corp: 203/2252b lim: 48 exec/s: 19457 rss: 370Mb L: 35/43 MS: 1 CopyPart-
+#19673	NEW    cov: 94 ft: 625 corp: 204/2290b lim: 48 exec/s: 19673 rss: 370Mb L: 38/43 MS: 1 CopyPart-
+#19812	NEW    cov: 94 ft: 626 corp: 205/2312b lim: 48 exec/s: 19812 rss: 371Mb L: 22/43 MS: 4 EraseBytes-ChangeBit-InsertByte-CrossOver-
+#20044	REDUCE cov: 94 ft: 626 corp: 205/2311b lim: 48 exec/s: 20044 rss: 371Mb L: 23/43 MS: 2 EraseBytes-CopyPart-
+#20085	NEW    cov: 94 ft: 630 corp: 206/2354b lim: 48 exec/s: 20085 rss: 371Mb L: 43/43 MS: 1 PersAutoDict- DE: "\376\377\377\377\377\200\013\202"-
+#20136	NEW    cov: 94 ft: 631 corp: 207/2395b lim: 48 exec/s: 20136 rss: 372Mb L: 41/43 MS: 1 CopyPart-
+#20412	NEW    cov: 94 ft: 632 corp: 208/2436b lim: 48 exec/s: 20412 rss: 373Mb L: 41/43 MS: 1 InsertByte-
+#20805	NEW    cov: 94 ft: 633 corp: 209/2473b lim: 48 exec/s: 20805 rss: 374Mb L: 37/43 MS: 3 ChangeByte-CrossOver-CopyPart-
+#20869	NEW    cov: 94 ft: 636 corp: 210/2521b lim: 48 exec/s: 20869 rss: 374Mb L: 48/48 MS: 4 CopyPart-ShuffleBytes-InsertRepeatedBytes-CrossOver-
+#20965	NEW    cov: 94 ft: 637 corp: 211/2561b lim: 48 exec/s: 20965 rss: 374Mb L: 40/48 MS: 1 EraseBytes-
+#21171	NEW    cov: 94 ft: 638 corp: 212/2604b lim: 48 exec/s: 21171 rss: 375Mb L: 43/48 MS: 1 CMP- DE: "\376\377\377\377\377\200\013\365"-
+#21741	NEW    cov: 94 ft: 639 corp: 213/2656b lim: 53 exec/s: 21741 rss: 377Mb L: 52/52 MS: 5 ChangeBit-InsertRepeatedBytes-InsertByte-ChangeByte-CrossOver-
+#21797	NEW    cov: 94 ft: 640 corp: 214/2691b lim: 53 exec/s: 21797 rss: 377Mb L: 35/52 MS: 1 CopyPart-
+#21916	NEW    cov: 94 ft: 641 corp: 215/2741b lim: 53 exec/s: 21916 rss: 378Mb L: 50/52 MS: 4 CopyPart-PersAutoDict-InsertByte-CrossOver- DE: "\376\377\377\377\377\200\013\365"-
+#22282	NEW    cov: 94 ft: 642 corp: 216/2793b lim: 53 exec/s: 22282 rss: 379Mb L: 52/52 MS: 1 ChangeBit-
+#22394	NEW    cov: 94 ft: 645 corp: 217/2845b lim: 53 exec/s: 22394 rss: 379Mb L: 52/52 MS: 2 ChangeBit-CopyPart-
+#22447	NEW    cov: 94 ft: 648 corp: 218/2881b lim: 53 exec/s: 22447 rss: 379Mb L: 36/52 MS: 3 CMP-ChangeBit-InsertRepeatedBytes- DE: "\377\377"-
+#22643	NEW    cov: 94 ft: 649 corp: 219/2921b lim: 53 exec/s: 22643 rss: 380Mb L: 40/52 MS: 1 CrossOver-
+#22804	NEW    cov: 94 ft: 650 corp: 220/2959b lim: 53 exec/s: 22804 rss: 381Mb L: 38/52 MS: 1 ChangeByte-
+#23149	NEW    cov: 94 ft: 651 corp: 221/3011b lim: 53 exec/s: 23149 rss: 382Mb L: 52/52 MS: 5 InsertRepeatedBytes-CopyPart-ShuffleBytes-ChangeByte-ChangeBit-
+#23323	NEW    cov: 94 ft: 652 corp: 222/3063b lim: 53 exec/s: 23323 rss: 382Mb L: 52/52 MS: 4 ChangeByte-ShuffleBytes-ChangeByte-ShuffleBytes-
+#24739	NEW    cov: 94 ft: 655 corp: 223/3104b lim: 63 exec/s: 24739 rss: 387Mb L: 41/52 MS: 1 ChangeByte-
+#24761	NEW    cov: 94 ft: 656 corp: 224/3152b lim: 63 exec/s: 24761 rss: 387Mb L: 48/52 MS: 2 EraseBytes-CrossOver-
+#25742	NEW    cov: 94 ft: 657 corp: 225/3189b lim: 68 exec/s: 25742 rss: 390Mb L: 37/52 MS: 1 CopyPart-
+#25774	REDUCE cov: 94 ft: 657 corp: 225/3188b lim: 68 exec/s: 25774 rss: 390Mb L: 4/52 MS: 2 ChangeByte-EraseBytes-
+#26255	NEW    cov: 94 ft: 658 corp: 226/3224b lim: 68 exec/s: 26255 rss: 391Mb L: 36/52 MS: 1 InsertByte-
+#28297	REDUCE cov: 94 ft: 658 corp: 226/3221b lim: 86 exec/s: 28297 rss: 398Mb L: 40/52 MS: 2 ChangeBit-EraseBytes-
+#28639	REDUCE cov: 94 ft: 658 corp: 226/3219b lim: 86 exec/s: 14319 rss: 399Mb L: 39/52 MS: 2 ChangeBinInt-EraseBytes-
+#28722	REDUCE cov: 94 ft: 658 corp: 226/3218b lim: 86 exec/s: 14361 rss: 399Mb L: 3/52 MS: 3 InsertByte-ChangeBit-EraseBytes-
+#30116	REDUCE cov: 94 ft: 658 corp: 226/3217b lim: 98 exec/s: 15058 rss: 403Mb L: 5/52 MS: 4 CopyPart-ChangeBinInt-InsertByte-EraseBytes-
+#30697	REDUCE cov: 94 ft: 658 corp: 226/3212b lim: 98 exec/s: 15348 rss: 405Mb L: 16/52 MS: 1 EraseBytes-
+#32129	REDUCE cov: 94 ft: 658 corp: 226/3211b lim: 110 exec/s: 16064 rss: 410Mb L: 16/52 MS: 2 EraseBytes-ChangeBinInt-
+#32768	pulse  cov: 94 ft: 658 corp: 226/3211b lim: 116 exec/s: 16384 rss: 412Mb
+#36999	NEW    cov: 94 ft: 669 corp: 227/3366b lim: 156 exec/s: 12333 rss: 426Mb L: 155/155 MS: 5 PersAutoDict-InsertRepeatedBytes-ChangeByte-ChangeByte-CopyPart- DE: "\016W\327\377\377\377\377\377"-
+#37422	NEW    cov: 94 ft: 677 corp: 228/3518b lim: 156 exec/s: 12474 rss: 428Mb L: 152/155 MS: 3 ChangeBinInt-InsertRepeatedBytes-CopyPart-
+#37578	NEW    cov: 94 ft: 681 corp: 229/3671b lim: 156 exec/s: 12526 rss: 428Mb L: 153/155 MS: 1 InsertByte-
+#37879	NEW    cov: 94 ft: 688 corp: 230/3826b lim: 156 exec/s: 12626 rss: 429Mb L: 155/155 MS: 1 ShuffleBytes-
+#37915	NEW    cov: 94 ft: 694 corp: 231/3981b lim: 156 exec/s: 12638 rss: 429Mb L: 155/155 MS: 1 CopyPart-
+#38087	NEW    cov: 94 ft: 696 corp: 232/4137b lim: 156 exec/s: 12695 rss: 430Mb L: 156/156 MS: 2 ChangeBinInt-CrossOver-
+#38123	NEW    cov: 94 ft: 698 corp: 233/4289b lim: 156 exec/s: 12707 rss: 430Mb L: 152/156 MS: 1 ChangeBinInt-
+#38619	NEW    cov: 94 ft: 700 corp: 234/4445b lim: 156 exec/s: 12873 rss: 431Mb L: 156/156 MS: 1 CopyPart-
+#38671	NEW    cov: 94 ft: 701 corp: 235/4600b lim: 156 exec/s: 12890 rss: 432Mb L: 155/156 MS: 2 ChangeBinInt-ChangeBit-
+#39058	NEW    cov: 94 ft: 702 corp: 236/4738b lim: 156 exec/s: 13019 rss: 433Mb L: 138/156 MS: 2 CopyPart-InsertRepeatedBytes-
+#39271	REDUCE cov: 94 ft: 702 corp: 236/4736b lim: 156 exec/s: 13090 rss: 433Mb L: 2/156 MS: 3 ChangeByte-CopyPart-EraseBytes-
+#39402	NEW    cov: 94 ft: 703 corp: 237/4874b lim: 156 exec/s: 13134 rss: 434Mb L: 138/156 MS: 1 ChangeByte-
+#39424	NEW    cov: 94 ft: 707 corp: 238/5029b lim: 156 exec/s: 13141 rss: 434Mb L: 155/156 MS: 2 ChangeByte-ShuffleBytes-
+#39765	NEW    cov: 94 ft: 708 corp: 239/5184b lim: 156 exec/s: 13255 rss: 435Mb L: 155/156 MS: 1 ShuffleBytes-
+#39867	NEW    cov: 94 ft: 711 corp: 240/5340b lim: 156 exec/s: 13289 rss: 436Mb L: 156/156 MS: 2 CrossOver-PersAutoDict- DE: "\377\377"-
+#39888	NEW    cov: 94 ft: 713 corp: 241/5478b lim: 156 exec/s: 13296 rss: 436Mb L: 138/156 MS: 1 ChangeBinInt-
+#40144	NEW    cov: 94 ft: 717 corp: 242/5634b lim: 156 exec/s: 13381 rss: 436Mb L: 156/156 MS: 1 ChangeBinInt-
+#40183	REDUCE cov: 94 ft: 717 corp: 242/5633b lim: 156 exec/s: 13394 rss: 436Mb L: 1/156 MS: 4 EraseBytes-ShuffleBytes-InsertByte-EraseBytes-
+#40219	NEW    cov: 94 ft: 719 corp: 243/5785b lim: 156 exec/s: 13406 rss: 437Mb L: 152/156 MS: 1 ShuffleBytes-
+#40275	NEW    cov: 94 ft: 720 corp: 244/5937b lim: 156 exec/s: 13425 rss: 437Mb L: 152/156 MS: 1 ShuffleBytes-
+#40396	NEW    cov: 94 ft: 721 corp: 245/6090b lim: 156 exec/s: 13465 rss: 437Mb L: 153/156 MS: 1 CopyPart-
+#40477	REDUCE cov: 94 ft: 721 corp: 245/6089b lim: 156 exec/s: 13492 rss: 437Mb L: 34/156 MS: 1 EraseBytes-
+#40588	NEW    cov: 94 ft: 722 corp: 246/6238b lim: 156 exec/s: 13529 rss: 438Mb L: 149/156 MS: 1 CopyPart-
+#40730	REDUCE cov: 94 ft: 722 corp: 246/6236b lim: 156 exec/s: 13576 rss: 438Mb L: 50/156 MS: 2 ChangeByte-EraseBytes-
+#40781	NEW    cov: 94 ft: 723 corp: 247/6387b lim: 156 exec/s: 13593 rss: 438Mb L: 151/156 MS: 1 CMP- DE: "\001\000"-
+#41059	NEW    cov: 94 ft: 726 corp: 248/6543b lim: 156 exec/s: 13686 rss: 439Mb L: 156/156 MS: 3 PersAutoDict-ChangeByte-CrossOver- DE: "\376\377\377\377\377\200\013\365"-
+#41180	NEW    cov: 94 ft: 727 corp: 249/6681b lim: 156 exec/s: 13726 rss: 440Mb L: 138/156 MS: 1 CopyPart-
+#41351	NEW    cov: 94 ft: 728 corp: 250/6820b lim: 156 exec/s: 13783 rss: 440Mb L: 139/156 MS: 1 InsertByte-
+#41802	NEW    cov: 94 ft: 731 corp: 251/6975b lim: 156 exec/s: 13934 rss: 442Mb L: 155/156 MS: 1 ChangeBit-
+#41889	NEW    cov: 94 ft: 732 corp: 252/7130b lim: 156 exec/s: 13963 rss: 442Mb L: 155/156 MS: 2 ChangeByte-ChangeBit-
+#42865	NEW    cov: 94 ft: 733 corp: 253/7285b lim: 163 exec/s: 10716 rss: 445Mb L: 155/156 MS: 1 ChangeByte-
+#42949	NEW    cov: 94 ft: 734 corp: 254/7446b lim: 163 exec/s: 10737 rss: 445Mb L: 161/161 MS: 4 InsertRepeatedBytes-ShuffleBytes-InsertByte-ShuffleBytes-
+#43090	NEW    cov: 94 ft: 735 corp: 255/7597b lim: 163 exec/s: 10772 rss: 446Mb L: 151/161 MS: 1 ChangeByte-
+#43139	NEW    cov: 94 ft: 736 corp: 256/7760b lim: 163 exec/s: 10784 rss: 446Mb L: 163/163 MS: 4 ShuffleBytes-ChangeByte-PersAutoDict-CopyPart- DE: "\376\377\377\377\377\200\013\365"-
+#43275	NEW    cov: 94 ft: 737 corp: 257/7919b lim: 163 exec/s: 10818 rss: 446Mb L: 159/163 MS: 1 InsertRepeatedBytes-
+#43546	NEW    cov: 94 ft: 739 corp: 258/8078b lim: 163 exec/s: 10886 rss: 447Mb L: 159/163 MS: 1 InsertRepeatedBytes-
+#44353	NEW    cov: 94 ft: 742 corp: 259/8233b lim: 170 exec/s: 11088 rss: 450Mb L: 155/163 MS: 2 CopyPart-CopyPart-
+#44390	REDUCE cov: 94 ft: 742 corp: 259/8232b lim: 170 exec/s: 11097 rss: 450Mb L: 4/163 MS: 2 ChangeBinInt-EraseBytes-
+#44637	NEW    cov: 94 ft: 743 corp: 260/8371b lim: 170 exec/s: 11159 rss: 451Mb L: 139/163 MS: 2 InsertByte-ChangeBinInt-
+#45659	NEW    cov: 94 ft: 744 corp: 261/8522b lim: 177 exec/s: 11414 rss: 454Mb L: 151/163 MS: 2 InsertRepeatedBytes-PersAutoDict- DE: "\001\000"-
+#46732	NEW    cov: 94 ft: 745 corp: 262/8686b lim: 184 exec/s: 9346 rss: 458Mb L: 164/164 MS: 3 InsertRepeatedBytes-CopyPart-ChangeByte-
+#48173	NEW    cov: 94 ft: 746 corp: 263/8875b lim: 198 exec/s: 9634 rss: 463Mb L: 189/189 MS: 1 InsertRepeatedBytes-
+#49138	NEW    cov: 94 ft: 747 corp: 264/9018b lim: 205 exec/s: 9827 rss: 466Mb L: 143/189 MS: 5 ShuffleBytes-ChangeBinInt-CopyPart-ChangeByte-InsertRepeatedBytes-
+#49490	NEW    cov: 94 ft: 748 corp: 265/9182b lim: 205 exec/s: 9898 rss: 467Mb L: 164/189 MS: 2 ChangeBinInt-CrossOver-
+#50506	NEW    cov: 94 ft: 749 corp: 266/9334b lim: 212 exec/s: 8417 rss: 471Mb L: 152/189 MS: 1 InsertByte-
+#51222	REDUCE cov: 94 ft: 749 corp: 266/9321b lim: 219 exec/s: 8537 rss: 473Mb L: 35/189 MS: 1 EraseBytes-
+#51339	NEW    cov: 94 ft: 750 corp: 267/9513b lim: 219 exec/s: 8556 rss: 473Mb L: 192/192 MS: 2 InsertByte-CopyPart-
+#51383	NEW    cov: 94 ft: 751 corp: 268/9702b lim: 219 exec/s: 8563 rss: 473Mb L: 189/192 MS: 4 ShuffleBytes-ShuffleBytes-CrossOver-EraseBytes-
+#54117	REDUCE cov: 94 ft: 751 corp: 268/9683b lim: 240 exec/s: 7731 rss: 482Mb L: 170/192 MS: 4 PersAutoDict-CrossOver-ChangeBinInt-EraseBytes- DE: "\001\000"-
+#55168	NEW    cov: 94 ft: 752 corp: 269/9883b lim: 247 exec/s: 7881 rss: 506Mb L: 200/200 MS: 1 PersAutoDict- DE: "\016W\327\377\377\377\377\377"-
+#56080	REDUCE cov: 94 ft: 752 corp: 269/9844b lim: 254 exec/s: 7010 rss: 506Mb L: 153/200 MS: 2 ChangeBinInt-EraseBytes-
+#57290	REDUCE cov: 94 ft: 752 corp: 269/9842b lim: 261 exec/s: 7161 rss: 506Mb L: 33/200 MS: 5 ShuffleBytes-ChangeBit-ChangeByte-CrossOver-CopyPart-
+==9794== libFuzzer: run interrupted; exiting
