@@ -164,6 +164,7 @@ extern "C" int LLVMFuzzerTestOneInput(const char *Data, size_t Size) {
   if (Size < 4) {
     return 0;
   }
+
   int i = 0;
   while ((i * 2) < Size) {
     int action = Data[i * 2] % 6;
