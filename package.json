@@ -1,5 +1,7 @@
 {
   "name": "fuzzpuppet",
+  "main": "dist/node/cli.js",
+  "bin": "dist/node/cli.js",
   "dependencies": {
     "@babel/standalone": "^7.21.8",
     "@babel/types": "^7.21.5",
@@ -26,6 +28,7 @@
     "watch": "concurrently --kill-others \"npm run watch:browser\" \"npm run watch:node\" \"npm run watch:eval\"",
     "watch:node": "tsc -p './src/node/tsconfig.json' --watch",
     "watch:eval": "tsc -p './src/eval/tsconfig.json' --watch",
-    "watch:browser": "webpack --watch"
+    "watch:browser": "webpack --watch",
+    "build": "tsc -p './src/node/tsconfig.json' && tsc -p './src/eval/tsconfig.json' && webpack && sed -i.bak '1s;^;#!/usr/bin/env node\\n;' ./dist/node/cli.js && chmod +x ./dist/node/cli.js"
   }
 }
