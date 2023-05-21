@@ -11,7 +11,7 @@ const transformBundle = fs.readFileSync(
 
 const bundleB64 = Buffer.from(transformBundle).toString("base64");
 
-const pagesBehind = 2;
+const pagesBehind = 6;
 let nextPages: Array<Promise<readonly [Page, HTTPResponse | null]>> | null =
   null;
 
@@ -19,23 +19,34 @@ let nextId = 0;
 let beginnings: Record<string, number> = {};
 
 async function createPage(): Promise<readonly [Page, HTTPResponse | null]> {
-  const browser = await puppeteer.launch({ headless: 'new' });
+  const browser = await puppeteer.launch({
+    headless: 'new',
+    args: [
+      "--disable-web-security",
+      `--user-data-dir=/tmp/browser_${Math.floor(Math.random() * (1 << 20))}`,
+      "--disable-audio",
+    ],
+  });
   const page = await browser.newPage();
 
   page.setRequestInterception(true);
 
-  page
-    .on('console', message =>
-      console.log(`${message.type().substr(0, 3).toUpperCase()} ${message.text()}`))
-
-
   page.on("request", async (req) => {
-    if (req.url().endsWith(".html")) {
-      let resp = await fetch(req.url());
+    if (req.headers()["accept"]?.includes("text/html")) {
+      let resp = await fetch(req.url(), {
+        headers: req.headers(),
+        method: req.method(),
+      });
       const headers: Record<string, unknown> = {};
       for (const [k, v] of resp.headers.entries()) {
         headers[k] = v;
       }
+      headers["Access-Control-Allow-Origin"] = "*";
+      headers["Access-Control-Allow-Headers"] = "*";
+      headers["Access-Control-Allow-Methods"] = "*";
+      headers["Access-Control-Allow-Credentials"] = "true";
+      headers["Content-Security-Policy"] = "";
+
       const contentType = resp.headers.get("Content-Type") ?? undefined;
       if (!resp.ok) {
         return await req.respond({
@@ -47,8 +58,8 @@ async function createPage(): Promise<readonly [Page, HTTPResponse | null]> {
       }
       let body = await resp.text();
       body = body.replace(
-        "<head>",
-        `<head>
+        /<head(.*?)>/,
+        `<head$1>
           <script data-safe type="application/javascript">
             window.__instrument_prep = {
               nextId: ${nextId},
@@ -107,6 +118,7 @@ async function getPage(): Promise<readonly [Page, HTTPResponse | null]> {
 function makeError(errorLike: any) {
   const error = new Error(errorLike.message ?? "");
   error.stack = errorLike.stack ?? undefined;
+  (error as any).__real = true;
   return error;
 }
 
@@ -123,9 +135,7 @@ export async function getAllInteractors(
   return interactors;
 }
 
-async function updateFuzzer(page: Page) {
-  console.log("Getting ctx");
-
+async function updateFuzzerTry(page: Page) {
   const [errs, traces, prep] = await page.evaluate(() => {
     const out = [
       [...window.__errs],
@@ -140,19 +150,15 @@ async function updateFuzzer(page: Page) {
   for (const { fn, args } of traces) {
     switch (fn) {
       case "traceAndReturn":
-        console.log({fn, args});
         (Fuzzer.tracer.traceAndReturn as any)(...args);
         break;
       case "traceNumberCmp":
-        console.log({fn, args});
         (Fuzzer.tracer.traceNumberCmp as any)(...args);
         break;
       case "traceStrCmp":
-        console.log({fn, args});
         (Fuzzer.tracer.traceStrCmp as any)(...args);
         break;
       case "incrementCounter":
-        console.log({fn, args});
         (Fuzzer.coverageTracker.incrementCounter as any)(...args);
         break;
     }
@@ -162,7 +168,39 @@ async function updateFuzzer(page: Page) {
   nextId = prep.nextId;
 
   if (errs.length > 0) {
+    console.log(errs);
     throw makeError(errs[0]);
+  }
+}
+
+async function updateFuzzer(page: Page) {
+  console.log("Getting ctx");
+  let tries = 0;
+  while (true) {
+    try {
+      await page.bringToFront();
+      await updateFuzzerTry(page);
+      break;
+    } catch (e) {
+      if ((e as any).__real) throw e;
+
+      tries += 1;
+      try {
+        await page.waitForNavigation({
+          waitUntil: "domcontentloaded",
+          timeout: 1000,
+        });
+      } catch (e) {
+        // do nothing
+      }
+      if (tries === 20) {
+        await page.reload({ timeout: 10000, waitUntil: "domcontentloaded" });
+      }
+      if (tries > 40) {
+        console.log("Tries exceeded max", e);
+        throw e;
+      }
+    }
   }
 }
 
@@ -175,6 +213,12 @@ export async function fuzz(input: Buffer) {
   }
 
   while (data.remainingBytes > 0) {
+    try {
+      await updateFuzzer(page);
+    } catch (e) {
+      if ((e as any).__real) throw e;
+      break;
+    }
     const interactors = await getAllInteractors(page);
     if (interactors.length <= 0) break;
 
@@ -203,35 +247,21 @@ export async function fuzz(input: Buffer) {
       await (chosen.evaluate as any)((el: HTMLButtonElement) => el.click());
       console.log("button click");
     } else if (tag === "a") {
-      await updateFuzzer(page);
       console.log("a click ->", href, chosen);
       if (href) {
         console.log("Waiting...");
-        const currLoc = page.url();
-        const [response] = await Promise.all([
-          page.waitForNavigation({ waitUntil: "load" }),
-          chosen.click(),
-        ]);
-        console.log(response);
-        if (page.url() !== currLoc && response && !response.ok)
-          throw new Error("Got non-OK status when navigating");
+        try {
+          await chosen.click();
+        } catch (e) {
+          // continue
+        }
       }
     }
   }
-  await updateFuzzer(page);
-  await resetPage(thePage);
+  try {
+    await updateFuzzer(page);
+  } catch (e) {
+    if ((e as any).__real) throw e;
+  }
   console.log("---");
 }
-
-// (async () => {
-//   const b = await browser;
-//   process.on("exit", () => {
-//     b.close();
-//   });
-//   process.on("SIGINT", () => {
-//     b.close();
-//   });
-//   process.on("uncaughtException", () => {
-//     b.close();
-//   });
-// })();

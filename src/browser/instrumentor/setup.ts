@@ -21,7 +21,6 @@ window.Fuzzer = {
       window.__traces.push({ fn: "traceStrCmp", args: [a, b, op, pc] });
     },
     traceNumberCmp: (a, b, op, pc) => {
-      console.log("TRACING NUMBER CMP", JSON.stringify([a, b, op, pc]));
       window.__traces.push({
         fn: "traceNumberCmp",
         args: [a, b, op, pc],
