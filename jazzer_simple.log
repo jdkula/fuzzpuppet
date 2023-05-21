@@ -1,0 +1,15 @@
+INFO: Running with entropic power schedule (0xFF, 100).
+INFO: Seed: 8
+INFO: Loaded 1 modules   (512 inline 8-bit counters): 512 [0x7f9e0430c010, 0x7f9e0430c210), 
+INFO: Loaded 1 PC tables (512 PCs): 512 [0x7f9dfdffd010,0x7f9dfdfff010), 
+INFO: -max_len is not provided; libFuzzer will not generate inputs larger than 4096 bytes
+INFO: A corpus is not provided, starting from an empty corpus
+#2	INITED cov: 2 ft: 2 corp: 1/1b exec/s: 0 rss: 118Mb
+#15	NEW    cov: 2 ft: 4 corp: 2/3b lim: 4 exec/s: 0 rss: 118Mb L: 2/2 MS: 3 ChangeByte-ShuffleBytes-InsertByte-
+#26	NEW    cov: 2 ft: 6 corp: 3/6b lim: 4 exec/s: 0 rss: 118Mb L: 3/3 MS: 1 CopyPart-
+#29	NEW    cov: 2 ft: 8 corp: 4/10b lim: 4 exec/s: 0 rss: 118Mb L: 4/4 MS: 3 EraseBytes-CMP-CopyPart- DE: "\000\000"-
+MS: 5 ChangeBinInt-EraseBytes-CopyPart-CopyPart-CMP- DE: "\377\377"-; base unit: 64304175aba6f8e44e22ea56fbf7e4ee5f9744f5
+0x0,0x0,0x0,0xff,0xff,0x4,
+\000\000\000\377\377\004
+artifact_prefix='./'; Test unit written to ./crash-a3a5cb29065ece537a60efd3bc7cb039d2de2932
+Base64: AAAA//8E

@@ -1,0 +1,19 @@
+INFO: Running with entropic power schedule (0xFF, 100).
+INFO: Seed: 8
+INFO: Loaded 1 modules   (512 inline 8-bit counters): 512 [0x7fbb90054010, 0x7fbb90054210), 
+INFO: Loaded 1 PC tables (512 PCs): 512 [0x7fbb89ffd010,0x7fbb89fff010), 
+INFO: -max_len is not provided; libFuzzer will not generate inputs larger than 4096 bytes
+INFO: A corpus is not provided, starting from an empty corpus
+#2	INITED exec/s: 0 rss: 118Mb
+WARNING: no interesting inputs were found so far. Is the code instrumented for coverage?
+This may also happen if the target rejected all inputs we tried so far
+#12	NEW    cov: 2 ft: 2 corp: 2/4b lim: 4 exec/s: 0 rss: 118Mb L: 3/3 MS: 5 CrossOver-ShuffleBytes-InsertByte-ChangeBinInt-InsertByte-
+#15	NEW    cov: 2 ft: 4 corp: 3/7b lim: 4 exec/s: 0 rss: 118Mb L: 3/3 MS: 3 ChangeBit-InsertByte-InsertByte-
+#29	NEW    cov: 2 ft: 6 corp: 4/11b lim: 4 exec/s: 0 rss: 118Mb L: 4/4 MS: 4 CrossOver-ChangeBinInt-CrossOver-ChangeBinInt-
+#69	REDUCE cov: 2 ft: 6 corp: 4/10b lim: 4 exec/s: 0 rss: 118Mb L: 2/4 MS: 5 ChangeBit-ShuffleBytes-CopyPart-ChangeBinInt-EraseBytes-
+#275	NEW    cov: 2 ft: 8 corp: 5/15b lim: 6 exec/s: 0 rss: 120Mb L: 5/5 MS: 1 CopyPart-
+MS: 3 InsertByte-CopyPart-ChangeBinInt-; base unit: 7cca4823652853889cfb9a9c2fac5e6cd1ff50c9
+0x7e,0x4,0xf7,0xff,0xff,0xff,
+~\004\367\377\377\377
+artifact_prefix='./'; Test unit written to ./crash-bc53f5daf92e157af927a07e2e65b4db4fdc712d
+Base64: fgT3////

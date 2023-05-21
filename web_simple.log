@@ -1,0 +1,23 @@
+INFO: Running with entropic power schedule (0xFF, 100).
+INFO: Seed: 8
+INFO: Loaded 1 modules   (512 inline 8-bit counters): 512 [0x7f3b64c1c010, 0x7f3b64c1c210), 
+INFO: Loaded 1 PC tables (512 PCs): 512 [0x7f3b52fff010,0x7f3b53001010), 
+INFO: -max_len is not provided; libFuzzer will not generate inputs larger than 4096 bytes
+INFO: A corpus is not provided, starting from an empty corpus
+#2	pulse  ft: 2 exec/s: 1 rss: 281Mb
+#2	INITED cov: 2 ft: 2 corp: 1/1b exec/s: 1 rss: 281Mb
+#4	pulse  cov: 2 ft: 2 corp: 1/1b lim: 4 exec/s: 1 rss: 290Mb
+#8	pulse  cov: 2 ft: 2 corp: 1/1b lim: 4 exec/s: 1 rss: 342Mb
+#15	NEW    cov: 2 ft: 4 corp: 2/3b lim: 4 exec/s: 1 rss: 343Mb L: 2/2 MS: 3 ChangeByte-ShuffleBytes-InsertByte-
+#16	pulse  cov: 2 ft: 4 corp: 2/3b lim: 4 exec/s: 1 rss: 343Mb
+#26	NEW    cov: 2 ft: 6 corp: 3/6b lim: 4 exec/s: 1 rss: 409Mb L: 3/3 MS: 1 CopyPart-
+#29	NEW    cov: 2 ft: 8 corp: 4/10b lim: 4 exec/s: 1 rss: 411Mb L: 4/4 MS: 3 EraseBytes-CMP-CopyPart- DE: "\000\000"-
+#32	pulse  cov: 2 ft: 8 corp: 4/10b lim: 4 exec/s: 1 rss: 411Mb
+#64	pulse  cov: 2 ft: 8 corp: 4/10b lim: 4 exec/s: 1 rss: 411Mb
+#128	pulse  cov: 2 ft: 8 corp: 4/10b lim: 4 exec/s: 1 rss: 418Mb
+#256	pulse  cov: 2 ft: 8 corp: 4/10b lim: 6 exec/s: 1 rss: 419Mb
+MS: 5 ChangeBinInt-EraseBytes-CopyPart-CopyPart-CMP- DE: "\377\377"-; base unit: 64304175aba6f8e44e22ea56fbf7e4ee5f9744f5
+0x0,0x0,0x0,0xff,0xff,0x4,
+\000\000\000\377\377\004
+artifact_prefix='./'; Test unit written to ./crash-a3a5cb29065ece537a60efd3bc7cb039d2de2932
+Base64: AAAA//8E

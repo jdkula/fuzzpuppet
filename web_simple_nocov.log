@@ -1,0 +1,21 @@
+INFO: Running with entropic power schedule (0xFF, 100).
+INFO: Seed: 4027674726
+INFO: Loaded 1 modules   (512 inline 8-bit counters): 512 [0x7f1cc6d49010, 0x7f1cc6d49210), 
+INFO: Loaded 1 PC tables (512 PCs): 512 [0x7f1cc5d48010,0x7f1cc5d4a010), 
+INFO: -max_len is not provided; libFuzzer will not generate inputs larger than 4096 bytes
+INFO: A corpus is not provided, starting from an empty corpus
+#2	pulse  exec/s: 1 rss: 282Mb
+#2	INITED exec/s: 1 rss: 282Mb
+WARNING: no interesting inputs were found so far. Is the code instrumented for coverage?
+This may also happen if the target rejected all inputs we tried so far
+#4	pulse  corp: 1/1b lim: 4 exec/s: 1 rss: 297Mb
+#8	pulse  corp: 1/1b lim: 4 exec/s: 1 rss: 349Mb
+#16	pulse  corp: 1/1b lim: 4 exec/s: 1 rss: 397Mb
+#32	pulse  corp: 1/1b lim: 4 exec/s: 1 rss: 413Mb
+#64	pulse  corp: 1/1b lim: 4 exec/s: 1 rss: 417Mb
+#128	pulse  corp: 1/1b lim: 4 exec/s: 1 rss: 417Mb
+MS: 5 CrossOver-InsertRepeatedBytes-ChangeBit-ChangeByte-ChangeBinInt-; base unit: adc83b19e793491b1c6ea0fd8b46cd9f32e592fc
+0x2,0xd9,0x95,0x95,0x95,0x6a,
+\002\331\225\225\225j
+artifact_prefix='./'; Test unit written to ./crash-6db1222bddb92c572d7c4a9ef7d32b95983cd79e
+Base64: AtmVlZVq
