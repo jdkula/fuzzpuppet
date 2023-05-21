@@ -2,6 +2,7 @@
   "name": "fuzzpuppet",
   "main": "dist/node/cli.js",
   "bin": "dist/node/cli.js",
+  "version": "v1",
   "dependencies": {
     "@babel/standalone": "^7.21.8",
     "@babel/types": "^7.21.5",
