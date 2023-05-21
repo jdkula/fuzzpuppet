@@ -11,8 +11,7 @@ const transformBundle = fs.readFileSync(
 
 const bundleB64 = Buffer.from(transformBundle).toString("base64");
 
-const browser = puppeteer.launch({ headless: 'new' });
-const pagesBehind = 1;
+const pagesBehind = 2;
 let nextPages: Array<Promise<readonly [Page, HTTPResponse | null]>> | null =
   null;
 
@@ -20,9 +19,16 @@ let nextId = 0;
 let beginnings: Record<string, number> = {};
 
 async function createPage(): Promise<readonly [Page, HTTPResponse | null]> {
-  const page = await (await browser).newPage();
+  const browser = await puppeteer.launch({ headless: 'new' });
+  const page = await browser.newPage();
 
   page.setRequestInterception(true);
+
+  page
+    .on('console', message =>
+      console.log(`${message.type().substr(0, 3).toUpperCase()} ${message.text()}`))
+
+
   page.on("request", async (req) => {
     if (req.url().endsWith(".html")) {
       let resp = await fetch(req.url());
@@ -64,7 +70,7 @@ async function createPage(): Promise<readonly [Page, HTTPResponse | null]> {
   });
 
   const res = await page.goto(process.env.TARGET ?? "http://localhost:8080/", {
-    waitUntil: "domcontentloaded",
+    waitUntil: "load",
   });
 
   return [page, res] as const;
@@ -75,7 +81,7 @@ async function resetPage(
 ): Promise<readonly [Page, HTTPResponse | null]> {
   const [page] = await pageProm;
   const res = await page.goto(process.env.TARGET ?? "http://localhost:8080/", {
-    waitUntil: "domcontentloaded",
+    waitUntil: "load",
   });
   return [page, res] as const;
 }
@@ -92,9 +98,8 @@ async function getPage(): Promise<readonly [Page, HTTPResponse | null]> {
   const lastIdx = idx;
   idx--;
   if (idx < 0) idx = pagesBehind - 1;
-
-  let pageToReturn = nextPages[idx];
   nextPages[lastIdx] = resetPage(nextPages[lastIdx]);
+  let pageToReturn = nextPages[idx];
 
   return await pageToReturn;
 }
@@ -116,6 +121,49 @@ export async function getAllInteractors(
 
   let interactors = [..._[0], ..._[1], ..._[2]];
   return interactors;
+}
+
+async function updateFuzzer(page: Page) {
+  console.log("Getting ctx");
+
+  const [errs, traces, prep] = await page.evaluate(() => {
+    const out = [
+      [...window.__errs],
+      [...window.__traces],
+      window.__instrument_prep,
+    ] as const;
+    return out;
+  });
+
+  Fuzzer.coverageTracker.enlargeCountersBufferIfNeeded(prep.nextId);
+
+  for (const { fn, args } of traces) {
+    switch (fn) {
+      case "traceAndReturn":
+        console.log({fn, args});
+        (Fuzzer.tracer.traceAndReturn as any)(...args);
+        break;
+      case "traceNumberCmp":
+        console.log({fn, args});
+        (Fuzzer.tracer.traceNumberCmp as any)(...args);
+        break;
+      case "traceStrCmp":
+        console.log({fn, args});
+        (Fuzzer.tracer.traceStrCmp as any)(...args);
+        break;
+      case "incrementCounter":
+        console.log({fn, args});
+        (Fuzzer.coverageTracker.incrementCounter as any)(...args);
+        break;
+    }
+  }
+
+  beginnings = prep.beginnings;
+  nextId = prep.nextId;
+
+  if (errs.length > 0) {
+    throw makeError(errs[0]);
+  }
 }
 
 export async function fuzz(input: Buffer) {
@@ -155,12 +203,13 @@ export async function fuzz(input: Buffer) {
       await (chosen.evaluate as any)((el: HTMLButtonElement) => el.click());
       console.log("button click");
     } else if (tag === "a") {
+      await updateFuzzer(page);
       console.log("a click ->", href, chosen);
       if (href) {
         console.log("Waiting...");
         const currLoc = page.url();
         const [response] = await Promise.all([
-          page.waitForNavigation({waitUntil: 'domcontentloaded'}),
+          page.waitForNavigation({ waitUntil: "load" }),
           chosen.click(),
         ]);
         console.log(response);
@@ -169,54 +218,20 @@ export async function fuzz(input: Buffer) {
       }
     }
   }
-
-  const [errs, traces, prep] = await page.evaluate(() => {
-    const out = [
-      [...window.__errs],
-      [...window.__traces],
-      window.__instrument_prep,
-    ] as const;
-    return out;
-  });
-
-  for (const { fn, args } of traces) {
-    switch (fn) {
-      case "traceAndReturn":
-        (Fuzzer.tracer.traceAndReturn as any)(...args);
-        break;
-      case "traceNumberCmp":
-        (Fuzzer.tracer.traceNumberCmp as any)(...args);
-        break;
-      case "traceStrCmp":
-        (Fuzzer.tracer.traceStrCmp as any)(...args);
-        break;
-      case "incrementCounter":
-        (Fuzzer.coverageTracker.incrementCounter as any)(...args);
-        break;
-    }
-  }
-
-  console.log([errs, traces, prep]);
-
-  beginnings = prep.beginnings;
-  nextId = prep.nextId;
-
-  if (errs.length > 0) {
-    throw makeError(errs[0]);
-  }
-  // await new Promise(() => void 0)
+  await updateFuzzer(page);
+  await resetPage(thePage);
   console.log("---");
 }
 
-(async () => {
-  const b = await browser;
-  process.on("exit", () => {
-    b.close();
-  });
-  process.on("SIGINT", () => {
-    b.close();
-  });
-  process.on("uncaughtException", () => {
-    b.close();
-  });
-})();
+// (async () => {
+//   const b = await browser;
+//   process.on("exit", () => {
+//     b.close();
+//   });
+//   process.on("SIGINT", () => {
+//     b.close();
+//   });
+//   process.on("uncaughtException", () => {
+//     b.close();
+//   });
+// })();

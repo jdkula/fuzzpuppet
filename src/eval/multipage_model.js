@@ -19,7 +19,7 @@ const model = {
         {
           tag: "input",
           type: "number",
-          value: undefined,
+          value: '',
         },
         {
           tag: "button",

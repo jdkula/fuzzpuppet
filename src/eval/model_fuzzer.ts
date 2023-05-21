@@ -9,15 +9,22 @@ import { FuzzedDataProvider } from "@jazzer.js/core";
 import * as fs from "node:fs";
 import * as path from "node:path";
 
-const modelInstrumented: WebsiteModel = eval(
-  instrument(
-    fs.readFileSync(process.env.TARGET as string, { encoding: "utf-8" })
-  )
-);
+const TARGET = fs.readFileSync(process.env.TARGET as string, {
+  encoding: "utf-8",
+});
+const TARGET_INSTRUMENTED = instrument(TARGET);
 
-const model: WebsiteModel = eval(
-  fs.readFileSync(process.env.TARGET as string, { encoding: "utf-8" })
-);
+Fuzzer.coverageTracker.enlargeCountersBufferIfNeeded(window.__instrument_prep.nextId);
+
+console.log(TARGET_INSTRUMENTED);
+
+const origNumberCmp = Fuzzer.tracer.traceNumberCmp.bind(Fuzzer.tracer);
+Fuzzer.tracer.traceNumberCmp = (a, b, op, id) => {
+  origNumberCmp(a, b, op, id);
+  return false;
+};
+
+const model: WebsiteModel = eval(TARGET);
 
 function toFileSet(model: WebsiteModel): Record<string, string> {
   const files: Record<string, string> = {};
@@ -128,17 +135,25 @@ for (const [file, html] of Object.entries(toFileSet(model))) {
   });
 }
 
+function getModelInstrumented(): WebsiteModel {
+  return eval(TARGET_INSTRUMENTED);
+}
+
 export async function fuzz(input: Buffer) {
   const data = new FuzzedDataProvider(input);
 
-  let page = modelInstrumented.pages[modelInstrumented.start];
-  let interactors = [
-    ...page.elements.filter((el) => el.tag === "button"),
-    ...page.elements.filter((el) => el.tag === "input"),
-    ...page.elements.filter((el) => el.tag === "a"),
-  ];
+  const modelInstrumented = getModelInstrumented();
 
-  while (data.remainingBytes > 0 && interactors.length > 0) {
+  let page = modelInstrumented.pages[modelInstrumented.start];
+
+  while (data.remainingBytes > 0) {
+    let interactors = [
+      ...page.elements.filter((el) => el.tag === "button"),
+      ...page.elements.filter((el) => el.tag === "input"),
+      ...page.elements.filter((el) => el.tag === "a"),
+    ];
+    if (interactors.length <= 0) break;
+
     const chosen =
       interactors[data.consumeIntegralInRange(0, interactors.length - 1)];
 
@@ -151,7 +166,7 @@ export async function fuzz(input: Buffer) {
         chosen.value = str;
         console.log("text input:", str);
       } else if (type === "number") {
-        const num = data.consumeIntegral(3, true);
+        const num = data.consumeIntegral(3, true).toString();
         chosen.value = num;
         console.log("number input:", num);
       }
@@ -170,6 +185,5 @@ export async function fuzz(input: Buffer) {
       console.log("a tag -> " + chosen.destination);
     }
   }
-
   console.log("---");
 }

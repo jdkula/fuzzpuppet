@@ -17,7 +17,7 @@ window.__compare_counter = Number.MAX_SAFE_INTEGER;
 export function fakePC(): types.NumericLiteral {
   return {
     type: "NumericLiteral",
-    value: window.__compare_counter--,
+    value: Math.floor(Math.random() * 512) /* window.__compare_counter-- */,
   };
 }
 
@@ -220,7 +220,6 @@ export function instrument(codeInp: string): string {
               expression: {
                 type: "LogicalExpression",
                 operator: "||",
-                right: path.node,
                 left: {
                   type: "CallExpression",
                   callee: {
@@ -234,6 +233,7 @@ export function instrument(codeInp: string): string {
                     fakePC(),
                   ],
                 },
+                right: path.node,
               },
             });
             path.skip();

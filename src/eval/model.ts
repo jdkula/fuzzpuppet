@@ -12,7 +12,7 @@ export type ElementModel = NumberModel | TextModel | ButtonModel | AModel;
 export interface NumberModel {
   tag: "input";
   type: "number";
-  value: number | undefined;
+  value: string | undefined;
   min?: number;
   max?: number;
   onChange?: () => void;

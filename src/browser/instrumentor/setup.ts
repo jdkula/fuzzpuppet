@@ -21,6 +21,7 @@ window.Fuzzer = {
       window.__traces.push({ fn: "traceStrCmp", args: [a, b, op, pc] });
     },
     traceNumberCmp: (a, b, op, pc) => {
+      console.log("TRACING NUMBER CMP", JSON.stringify([a, b, op, pc]));
       window.__traces.push({
         fn: "traceNumberCmp",
         args: [a, b, op, pc],
@@ -49,12 +50,12 @@ async function runQueue() {
       const { src, text } = queue.splice(0, 1)[0];
       if (text) {
         const transformed = await instrument(text);
-        console.log("Evaluating", { from: text, transformed });
+        // console.log("Got", transformed);
         eval(transformed);
       } else if (src) {
         const text = await fetch(src).then((resp) => resp.text());
         const transformed = instrument(text);
-        console.log("Evaluating", { src, from: text, transformed });
+        // console.log("Got", transformed);
         eval(transformed);
       }
     }
