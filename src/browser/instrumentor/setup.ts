@@ -1,4 +1,5 @@
 import { instrument } from "./instrumentor";
+import { function_map } from "./../../function_map";
 
 export function prepareWindow(window: Window) {
   if (!window.__instrument_prep) {
@@ -20,30 +21,31 @@ export function prepareWindow(window: Window) {
   });
 
   window.__traces = [];
+  window.__pcs_hit = new Map();
   window.Fuzzer = {
     tracer: {
       traceAndReturn: (id, test, pc) => {
         window.__traces.push({
-          fn: "traceAndReturn",
+          fn: function_map["traceAndReturn"],
           args: [id, test, pc],
         });
       },
       traceStrCmp: (a, b, op, pc) => {
-        window.__traces.push({ fn: "traceStrCmp", args: [a, b, op, pc] });
+        window.__traces.push({
+          fn: function_map["traceStrCmp"],
+          args: [a, b, op, pc],
+        });
       },
       traceNumberCmp: (a, b, op, pc) => {
         window.__traces.push({
-          fn: "traceNumberCmp",
+          fn: function_map["traceNumberCmp"],
           args: [a, b, op, pc],
         });
       },
     },
     coverageTracker: {
       incrementCounter: (x) => {
-        window.__traces.push({
-          fn: "incrementCounter",
-          args: [x],
-        });
+        window.__pcs_hit.set(x, (window.__pcs_hit.get(x) ?? 0) + 1);
       },
     },
   };

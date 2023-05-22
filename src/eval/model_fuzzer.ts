@@ -1,5 +1,6 @@
 //@ts-expect-error
 global.window = global;
+window.__instrument_prep = { beginnings: {}, nextId: 0 };
 
 import type { WebsiteModel } from "./model";
 import { instrument } from "../browser/instrumentor/instrumentor";
@@ -14,7 +15,9 @@ const TARGET = fs.readFileSync(process.env.TARGET as string, {
 });
 const TARGET_INSTRUMENTED = instrument(TARGET);
 
-Fuzzer.coverageTracker.enlargeCountersBufferIfNeeded(window.__instrument_prep.nextId);
+Fuzzer.coverageTracker.enlargeCountersBufferIfNeeded(
+  window.__instrument_prep.nextId
+);
 
 console.log(TARGET_INSTRUMENTED);
 

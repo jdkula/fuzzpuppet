@@ -3,9 +3,10 @@ import type * as _ from "../extension";
 import * as fs from "node:fs";
 import * as path from "node:path";
 import { FuzzError, isDebugMode, makeError } from "./utility";
+import { function_map } from "../function_map";
 
 const transformBundle = fs.readFileSync(
-  path.join(__dirname, "..", "browser", "bundle.js"),
+  path.join(__dirname, "..", "..", "browser", "bundle.js"),
   { encoding: "utf-8" }
 );
 
@@ -147,19 +148,24 @@ export default class FuzzManager {
   }
 
   private async updateFuzzerTry(page: Page) {
-    const [errs, traces, prep] = await page.evaluate(() => {
+    const [errs, pcs, traces, prep] = await page.evaluate(() => {
       const out = [
         [...window.__errs],
+        [...window.__pcs_hit],
         [...window.__traces],
         window.__instrument_prep,
       ] as const;
+      window.__errs = [];
+      window.__pcs_hit.clear();
+      window.__traces = [];
       return out;
     });
 
     Fuzzer.coverageTracker.enlargeCountersBufferIfNeeded(prep.nextId);
 
     for (const { fn, args } of traces) {
-      switch (fn) {
+      const fnCalled = function_map[fn as 0 | 1 | 2];
+      switch (fnCalled) {
         case "traceAndReturn":
           (Fuzzer.tracer.traceAndReturn as any)(...args);
           break;
@@ -169,9 +175,12 @@ export default class FuzzManager {
         case "traceStrCmp":
           (Fuzzer.tracer.traceStrCmp as any)(...args);
           break;
-        case "incrementCounter":
-          (Fuzzer.coverageTracker.incrementCounter as any)(...args);
-          break;
+      }
+    }
+
+    for (const [pc, num] of pcs) {
+      for (let i = 0; i < num; i++) {
+        (Fuzzer.coverageTracker.incrementCounter as any)(pc);
       }
     }
 

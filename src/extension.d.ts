@@ -1,14 +1,14 @@
 export interface WindowExtension {
   __SKIP_INSTRUMENTATION?: true;
   __INSTRUMENTATION_DEBUG_MODE?: true;
-  
+
   __compare_counter: number;
   __counter: number;
   process: { env: object };
 
   __errs: Array<Error>;
-  __mp: Map<number, number>;
-  __traces: Array<{ fn: string; args: any[] }>;
+  __traces: Array<{ fn: number; args: any[] }>;
+  __pcs_hit: Map<number, number>;
   Fuzzer: {
     tracer: {
       traceAndReturn: (id: number, test: string, pc: number) => void;
