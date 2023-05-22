@@ -2,7 +2,7 @@ import { Page } from "puppeteer";
 import { FuzzedDataProvider } from "@jazzer.js/core";
 import type * as _ from "../extension";
 import FuzzManager from "./FuzzManager";
-import { FuzzError, getAllInteractors } from "./utility";
+import { FuzzError, getAllInteractors, isDebugMode } from "./utility";
 
 const manager = new FuzzManager();
 
@@ -42,19 +42,26 @@ export async function fuzz(input: Buffer) {
       if (type === "text") {
         const str = data.consumeString(16, "utf-8");
         await chosen.type(str);
-        console.log("text input:", str);
+        if (isDebugMode()) {
+          console.log("text input:", str);
+        }
       } else if (type === "number") {
         const num = data.consumeIntegral(3, true).toString();
         await chosen.type(num);
-        console.log("number input:", num);
+        if (isDebugMode()) {
+          console.log("number input:", num);
+        }
       }
     } else if (tag === "button") {
       await (chosen.evaluate as any)((el: HTMLButtonElement) => el.click());
-      console.log("button click");
+      if (isDebugMode()) {
+        console.log("button click");
+      }
     } else if (tag === "a") {
-      console.log("a click ->", href, chosen);
+      if (isDebugMode()) {
+        console.log("a click ->", href);
+      }
       if (href) {
-        console.log("Waiting...");
         try {
           await chosen.click();
         } catch (e) {
@@ -64,5 +71,7 @@ export async function fuzz(input: Buffer) {
     }
   }
   await updateSafe(page, manager);
-  console.log("---");
+  if (isDebugMode()) {
+    console.log("---");
+  }
 }

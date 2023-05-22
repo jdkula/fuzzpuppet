@@ -2,7 +2,7 @@ import puppeteer, { Browser, HTTPRequest, HTTPResponse, Page } from "puppeteer";
 import type * as _ from "../extension";
 import * as fs from "node:fs";
 import * as path from "node:path";
-import { makeError } from "./utility";
+import { FuzzError, isDebugMode, makeError } from "./utility";
 
 const transformBundle = fs.readFileSync(
   path.join(__dirname, "..", "browser", "bundle.js"),
@@ -21,7 +21,7 @@ export default class FuzzManager {
   private nextQ: Array<Promise<PageSetupResponse>> = [];
 
   private setupClosure(browser: Browser) {
-    process.setMaxListeners(1000)
+    process.setMaxListeners(1000);
     process.on("uncaughtException", () => {
       browser.close();
     });
@@ -129,7 +129,7 @@ export default class FuzzManager {
   async getPage(): Promise<readonly [Page, HTTPResponse | null]> {
     let curLen = this.nextQ.length;
     if (curLen < PAGES_BEHIND) {
-      for (let i = 0; i < (PAGES_BEHIND - curLen); i++) {
+      for (let i = 0; i < PAGES_BEHIND - curLen; i++) {
         this.nextQ.push(this.createPage());
       }
     }
@@ -143,7 +143,6 @@ export default class FuzzManager {
 
     const pgRet = await pageToReturn;
 
-    console.log(pgRet);
     return pgRet;
   }
 
@@ -180,13 +179,15 @@ export default class FuzzManager {
     this.nextId = prep.nextId;
 
     if (errs.length > 0) {
-      console.log(errs);
+      console.log("Errors found:", errs);
       throw makeError(errs[0]);
     }
   }
 
   async updateFuzzer(page: Page) {
-    console.log("Getting ctx");
+    if (isDebugMode()) {
+      console.log("Updating fuzzer...");
+    }
     let tries = 0;
     while (true) {
       try {
@@ -194,7 +195,7 @@ export default class FuzzManager {
         await this.updateFuzzerTry(page);
         break;
       } catch (e) {
-        if ((e as any).__real) throw e;
+        if (e instanceof FuzzError) throw e;
 
         tries += 1;
         try {
@@ -209,7 +210,7 @@ export default class FuzzManager {
           await page.reload({ timeout: 10000, waitUntil: "domcontentloaded" });
         }
         if (tries > 40) {
-          console.log("Tries exceeded max", e);
+          console.warn("Tries exceeded max", e);
           throw e;
         }
       }

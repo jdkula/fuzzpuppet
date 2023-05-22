@@ -21,7 +21,9 @@ yargs(process.argv.slice(2))
       "Jazzer.js is used to facilitate communication between Node.js and libFuzzer, while FuzzPuppet communicates between it and the browser." +
       "To see Jazzer.js' options, pass in just the -h flag.\n\n" +
       'To pass options to the internal fuzzing engine (libFuzzer) use a double-dash, "--"' +
-      "to mark the end of normal fuzzer arguments.",
+      "to mark the end of normal fuzzer arguments.\n\n" +
+      "Use the PAGES_BEHIND environment variable to control how many instances of Chrome are spawned. " +
+      "The default is 6.",
     (yargs: Argv) => {
       yargs
         .positional("fuzzURL", {
@@ -39,11 +41,14 @@ yargs(process.argv.slice(2))
     },
     (args: any) => {
       process.env.TARGET = args.fuzzURL;
-      const reconstructed = process.argv.slice(3 + args.corpus.length)
+      const reconstructed = process.argv.slice(3 + args.corpus.length);
       const harness = path.join(__dirname, "harness.js");
-      process.argv.splice(2, process.argv.length - 2, ...['-e', '*', harness, ...args.corpus, ...reconstructed])
-      console.log(process.argv)
-      import("@jazzer.js/core/dist/cli")
+      process.argv.splice(
+        2,
+        process.argv.length - 2,
+        ...["-e", "*", harness, ...args.corpus, ...reconstructed]
+      );
+      import("@jazzer.js/core/dist/cli");
     }
   )
   .help().argv;
